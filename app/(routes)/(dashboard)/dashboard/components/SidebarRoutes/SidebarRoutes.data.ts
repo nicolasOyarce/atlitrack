@@ -1,19 +1,42 @@
-import { Calendar, Car, Heart } from "lucide-react";
+import { Calendar, Heart, Dumbbell, FileSliders, ChartLine, PersonStanding } from "lucide-react";
 
 export const dataGeneralSidebar = [
     {
-        icon: Car,
-        label: "Cars",
+        icon: Dumbbell,
+        label: "Clases",
         href:"/dashboard"
     },
     {
         icon: Calendar,
-        label: "Cars Reserves",
+        label: "Clases Reservadas",
         href:"/reserves"
     },
     {
         icon: Heart,
-        label: "Loved Cars",
-        href:"/loved-cars"
+        label: "Clases Favoritas",
+        href:"/loved-class"
+    },
+]
+
+export const dataAdminSidebar = [
+    {
+        icon: FileSliders,
+        label: "Administrar Clases",
+        href:"dashboard/admin/class-manager"
+    },
+    {
+        icon: PersonStanding,
+        label: "Administrar Profesores",
+        href:"dashboard/admin/prof-manager"
+    },
+    {
+        icon: Calendar,
+        label: "Clases Reservadas",
+        href:"/reserves"
+    },
+    {
+        icon: ChartLine,
+        label: "Reportes",
+        href:"/reports"
     },
 ]
