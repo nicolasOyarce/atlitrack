@@ -21,8 +21,8 @@ export const dataGeneralSidebar = [
 export const dataAdminSidebar = [
     {
         icon: FileSliders,
-        label: "Administrar Clases",
-        href:"dashboard/admin/class-manager"
+        label: "Administrar Centros Deportivos",
+        href:"dashboard/admin/sport-center-manager"
     },
     {
         icon: PersonStanding,
