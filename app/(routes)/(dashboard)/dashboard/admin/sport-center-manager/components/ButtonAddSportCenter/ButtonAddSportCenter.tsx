@@ -17,7 +17,7 @@ export function ButtonAddSportCenter() {
     const [openDialog, setOpenDialog] = useState(false);
 
     return (
-        <Dialog open={openDialog}>
+        <Dialog >
             <DialogTrigger asChild>
                 <Button variant="outline" onClick={()=> setOpenDialog(true)}>
                     Agregar nuevo centro deportivo
