@@ -1,19 +1,18 @@
-import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+// app/middleware.ts
 import { NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 
-const isProtectedRoute = createRouteMatcher(["/dashboard(.*)"]);
+export function middleware(req: NextRequest) {
+  const token = req.cookies.get("access_token"); // O lo que uses para gestionar la sesión
 
-export default clerkMiddleware((auth, req) => {
-  if (isProtectedRoute(req)) auth().protect()
-    
-  return NextResponse.next()
-});
+  // Si no existe un token, redirige a la página de login
+  if (!token && !req.nextUrl.pathname.startsWith('/sign-in')) {
+    return NextResponse.redirect(new URL('/sign-in', req.url));
+  }
+
+  return NextResponse.next();
+}
 
 export const config = {
-  matcher: [
-    // Skip Next.js internals and all static files, unless found in search params
-    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
-    // Always run for API routes
-    '/(api|trpc)(.*)',
-  ],
+  matcher: ['/dashboard/:path*'], // Rutas que quieres proteger
 };

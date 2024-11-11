@@ -1,4 +1,5 @@
-import { Calendar, Heart, Dumbbell, FileSliders, ChartLine, PersonStanding } from "lucide-react";
+import { Calendar, Heart, Dumbbell, FileSliders, ChartLine, PersonStanding, PanelBottomClose } from "lucide-react";
+import { exit } from "process";
 
 export const dataGeneralSidebar = [
     {
@@ -16,13 +17,19 @@ export const dataGeneralSidebar = [
         label: "Clases Favoritas",
         href:"/loved-class"
     },
+    {
+        icon: PanelBottomClose,
+        label:"Cerrar sesion",
+        href: "../../sign-in"
+
+    }
 ]
 
 export const dataAdminSidebar = [
     {
         icon: FileSliders,
         label: "Administrar Centros Deportivos",
-        href:"dashboard/admin/sport-center-manager"
+        href:"sport-center-manager"
     },
     {
         icon: PersonStanding,

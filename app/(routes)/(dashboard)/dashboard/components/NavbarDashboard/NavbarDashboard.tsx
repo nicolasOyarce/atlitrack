@@ -5,7 +5,6 @@ import {
 } from "@/components/ui/sheet"
 import { Menu } from "lucide-react"
 import { SidebarRoutes } from "../SidebarRoutes"
-import { UserButton } from "@clerk/nextjs"
 
 export const NavbarDashboard = () => {
     return (
@@ -21,7 +20,7 @@ export const NavbarDashboard = () => {
                 </Sheet>
             </div>
             <div className="flex items-center justify-end w-full gap-x-2">
-                <UserButton />
+                {/*<UserButton />*/}
             </div>
         </nav>
     )

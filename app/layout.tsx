@@ -2,9 +2,7 @@ import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
 import "./globals.css";
 import NextTopLoader from "nextjs-toploader";
-import {
-  ClerkProvider,
-} from '@clerk/nextjs';
+
 import { Toaster } from "@/components/ui/toaster"
 
 const outfit = Outfit({ subsets: ["latin"] });
@@ -14,20 +12,18 @@ export const metadata: Metadata = {
   description: "Test app Admin AtliTrack",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+
+import { AuthProvider } from "@/app/api/auth/login/route"; // Asegúrate de importar correctamente el AuthProvider
+import { Providers } from "./providers";
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <ClerkProvider>
-      <html lang="en" className="dark">
-        <body className={outfit.className}>
-          <NextTopLoader color="#000"/>
-          {children}
-          <Toaster />
+    <AuthProvider>
+      <html lang="en">
+        <body>
+          <Providers>{children}</Providers>
         </body>
       </html>
-    </ClerkProvider>
+    </AuthProvider>
   );
 }

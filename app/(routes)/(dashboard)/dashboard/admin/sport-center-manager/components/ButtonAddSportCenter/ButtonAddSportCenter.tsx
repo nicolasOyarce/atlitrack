@@ -17,7 +17,7 @@ export function ButtonAddSportCenter() {
     const [openDialog, setOpenDialog] = useState(false);
 
     return (
-        <Dialog >
+        <Dialog open={openDialog} onOpenChange={setOpenDialog}>
             <DialogTrigger asChild>
                 <Button variant="outline" onClick={()=> setOpenDialog(true)}>
                     Agregar nuevo centro deportivo
@@ -25,6 +25,7 @@ export function ButtonAddSportCenter() {
                 </Button>
             </DialogTrigger>
             <DialogContent>
+            <DialogTitle>Agregar un nuevo centro deportivo</DialogTitle> {/* Título accesible */}
                 <DialogHeader>
                     <DialogDescription>
                         <SportCenterForm />
