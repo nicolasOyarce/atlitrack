@@ -68,7 +68,7 @@ export class ApiClient<T> {
     }
   
     async update(id: string | number, data: Partial<T>): Promise<ApiResponse<T>> {
-      const endpoint = `${this.baseEndpoint}/${id}`; // Ruta específica para PUT actualización
+      const endpoint = `${this.baseEndpoint}/update/${id}`; // Ruta específica para PUT actualización
       console.log('ApiClient: Iniciando update() en', endpoint);
   
       try {

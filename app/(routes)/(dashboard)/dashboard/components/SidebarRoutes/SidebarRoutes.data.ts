@@ -38,8 +38,8 @@ export const dataAdminSidebar = [
     },
     {
         icon: Calendar,
-        label: "Clases Reservadas",
-        href:"/reserves"
+        label: "Entrenadores",
+        href:"trainer-manager"
     },
     {
         icon: ChartLine,

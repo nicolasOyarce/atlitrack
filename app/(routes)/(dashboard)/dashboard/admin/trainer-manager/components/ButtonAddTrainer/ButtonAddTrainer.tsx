@@ -10,29 +10,29 @@ import {
 } from "@/components/ui/dialog"
 import { useState } from "react";
 import { PlusCircle } from "lucide-react";
-import { SportCenterForm } from "../FormAddSportCenter";
+import { TrainerForm } from "../FormAddTrainer";
 
 
-export function ButtonAddSportCenter() {
+export function ButtonAddTrainer() {
     const [openDialog, setOpenDialog] = useState(false);
-    const [editingId, setEditingId] = useState<number | null>(null);
+    const [editingId, setEditingId] = useState<string | null>(null);
 
     return (
         <Dialog open={openDialog} onOpenChange={setOpenDialog}>
             <DialogTrigger asChild>
                 <Button variant="outline" onClick={()=> setOpenDialog(true)}>
-                    Agregar nuevo centro deportivo
+                    Agregar nuevo Entrenador
                     <PlusCircle className="ml-2" />
                 </Button>
             </DialogTrigger>
             <DialogContent>
-            <DialogTitle>Agregar un nuevo centro deportivo</DialogTitle> {/* Título accesible */}
+            <DialogTitle>Agregar un Entrenador</DialogTitle> {/* Título accesible */}
                 <DialogHeader>
                     <DialogDescription>
-                        <SportCenterForm 
-                        editingId={editingId}
-                        setEditingId={setEditingId}
-                        setOpenDialog={setOpenDialog}/>
+                        <TrainerForm 
+                            editingId={editingId}
+                            setEditingId={setEditingId}
+                            setOpenDialog={setOpenDialog}/>
                     </DialogDescription>    
                 </DialogHeader>
             </DialogContent>
