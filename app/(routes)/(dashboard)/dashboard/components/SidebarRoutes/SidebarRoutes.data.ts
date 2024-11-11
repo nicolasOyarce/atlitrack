@@ -33,8 +33,8 @@ export const dataAdminSidebar = [
     },
     {
         icon: PersonStanding,
-        label: "Administrar Profesores",
-        href:"dashboard/admin/prof-manager"
+        label: "Disciplinas",
+        href:"disciplines"
     },
     {
         icon: Calendar,

@@ -10,12 +10,11 @@ import {
 } from "@/components/ui/dialog"
 import { useState } from "react";
 import { PlusCircle } from "lucide-react";
-import { SportCenterForm } from "../FormAddSportCenter";
+import { DisciplineForm } from "../FormAddDiscipline";
 
 
 export function ButtonAddSportCenter() {
     const [openDialog, setOpenDialog] = useState(false);
-    const [editingId, setEditingId] = useState<number | null>(null);
 
     return (
         <Dialog open={openDialog} onOpenChange={setOpenDialog}>
@@ -29,9 +28,7 @@ export function ButtonAddSportCenter() {
             <DialogTitle>Agregar un nuevo centro deportivo</DialogTitle> {/* Título accesible */}
                 <DialogHeader>
                     <DialogDescription>
-                        <SportCenterForm 
-                        editingId={editingId}
-                        setEditingId={setEditingId}/>
+                        <DisciplineForm />
                     </DialogDescription>    
                 </DialogHeader>
             </DialogContent>
