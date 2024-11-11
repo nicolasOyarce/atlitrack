@@ -64,24 +64,6 @@ export function SportCenterForm() {
         },
     });
     
-{/*}
-    const { sportcenters, fetchSportCenters, addSportCenter } = useCrud();
-    useEffect(() => {
-        fetchSportCenters();
-    }, []);
-
-    const handleSportcenterSubmit = async (data: { sport_center_name: string;
-        city_id: number;
-        comuna_id: number;
-        address: string;
-        phone: number;
-        mail: string;
-        open_hour: string;
-        close_hour: string }) => {
-        await addSportCenter(data);
-    };
-
-*/}
     const formatTime = (time: { hour: string; minute: string }): string => {
         return `${time.hour}:${time.minute}`;
     };

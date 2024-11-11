@@ -63,7 +63,7 @@ export const useSportCenters = () => {
   });
 
   return {
-    sportCenters: query.data?.data || [],
+    sportCenters: query.data?.sportcenters || [], // Accede a "sportcenters" en lugar de "data"
     isLoading: query.isLoading,
     isError: query.isError,
     error: query.error,
@@ -71,4 +71,5 @@ export const useSportCenters = () => {
     updateSportCenter: updateMutation.mutate,
     deleteSportCenter: deleteMutation.mutate
   };
+  
 };
