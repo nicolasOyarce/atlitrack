@@ -2,7 +2,7 @@ import { UUID } from 'crypto';
 import { ApiClient } from './api-client';
 
 export interface Trainer {
-    id:UUID;
+    user_id:UUID;
     first_name: string;
     last_name: string;
     genre: string;

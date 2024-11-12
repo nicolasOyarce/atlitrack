@@ -1,16 +1,16 @@
-import { ButtonAddSportCenter } from "./components/ButtonAddDiscipline";
-import { TableSportCenter } from "./components/TableDiscipline/TableDiscipline";
+import { ButtonAddDiscipline } from "./components/ButtonAddDiscipline";
+import { TableDiscipline } from "./components/TableDiscipline/TableDiscipline";
 
 export default function DisciplinesPage() {
     return (
         <div>
             <div className="flex justify-between">
-                <h2 className="'text-2xl font-bold">Administrador de centros deportivos</h2>
-                <ButtonAddSportCenter />
+                <h2 className="'text-2xl font-bold">Administrador de Disciplinas</h2>
+                <ButtonAddDiscipline />
             </div>
             <div>
                 <div className="mt-20">
-                    <TableSportCenter />
+                    <TableDiscipline />
                 </div>
             </div>
         </div>

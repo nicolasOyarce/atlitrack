@@ -13,22 +13,26 @@ import { PlusCircle } from "lucide-react";
 import { DisciplineForm } from "../FormAddDiscipline";
 
 
-export function ButtonAddSportCenter() {
+export function ButtonAddDiscipline() {
     const [openDialog, setOpenDialog] = useState(false);
+    const [editingId, setEditingId] = useState<number | null>(null);
 
     return (
         <Dialog open={openDialog} onOpenChange={setOpenDialog}>
             <DialogTrigger asChild>
                 <Button variant="outline" onClick={()=> setOpenDialog(true)}>
-                    Agregar nuevo centro deportivo
+                    Agregar nueva Disciplina
                     <PlusCircle className="ml-2" />
                 </Button>
             </DialogTrigger>
             <DialogContent>
-            <DialogTitle>Agregar un nuevo centro deportivo</DialogTitle> {/* Título accesible */}
+            <DialogTitle>Agregar una Disciplina</DialogTitle> {/* Título accesible */}
                 <DialogHeader>
                     <DialogDescription>
-                        <DisciplineForm />
+                        <DisciplineForm 
+                            editingId={editingId}
+                            setEditingId={setEditingId}
+                            setOpenDialog={setOpenDialog}/>
                     </DialogDescription>    
                 </DialogHeader>
             </DialogContent>

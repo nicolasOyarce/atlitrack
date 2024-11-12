@@ -5,12 +5,12 @@ export default function TrainerManagerPage() {
     return (
         <div>
             <div className="flex justify-between">
-                <h2 className="'text-2xl font-bold">Administrador de centros deportivos</h2>
+                <h2 className="'text-2xl font-bold">Administrador Entrenadores</h2>
                 <ButtonAddTrainer />
             </div>
             <div>
                 <div className="mt-20">
-                    {/*<TableTrainer />*/}
+                    <TableTrainer />
                 </div>
             </div>
         </div>

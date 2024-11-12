@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { DataTable } from '@/components/ui/DataTable';
 import { createColumnHelper, ColumnDef } from '@tanstack/react-table';
-import { useSportCenters } from '@/hooks/useSportCenters';
+import { useTrainers } from '@/hooks/useTrainer';
 import { TrainerForm } from '../FormAddTrainer';
 import { Button } from "@/components/ui/button";
 import {
@@ -14,46 +14,48 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import { PencilIcon, PlusCircle } from "lucide-react";
+import { PencilIcon, PlusCircle, Trash, Trash2} from "lucide-react";
+import { UUID } from 'crypto';
 
-interface SportCenter {
-  sport_center_id: number;
-  sport_center_name: string;
-  city_name: string;
-  comuna_name: string;
-  address: string;
+type Trainer = {
+  user_id:string;
+  first_name: string;
+  last_name: string;
+  genre: string;
+  email: string;
   phone: string;
-  mail: string;
-  open_hour: string;
-  close_hour: string;
-}
+  password: string;
+  rut: string;
+  salary: string;
+};
 
-const columnHelper = createColumnHelper<SportCenter>();
+const columnHelper = createColumnHelper<Trainer>();
 
 export function TableTrainer() {
-  const { sportCenters, isLoading } = useSportCenters();
-  const [data, setData] = useState<SportCenter[]>([]);
-  const [selectedData, setSelectedData] = useState<SportCenter | null>(null);
+  const { trainers, isLoading, deleteTrainers } = useTrainers();
+  const [data, setData] = useState<Trainer[]>([]);
+  const [selectedData, setSelectedData] = useState<Trainer | null>(null);
   const [isEditFormOpen, setIsEditFormOpen] = useState(false);
-  const [editingId, setEditingId] = useState<number | null>(null);
+  const [editingId, setEditingId] = useState<string | null>(null);
   const [openDialog, setOpenDialog] = useState(false);
 
 
   useEffect(() => {
-    if (!isLoading && JSON.stringify(sportCenters) !== JSON.stringify(data)) {
-      setData(sportCenters);
+    if (!isLoading && JSON.stringify(trainers) !== JSON.stringify(data)) {
+      setData(trainers);
     }
-  }, [sportCenters, isLoading]);
+  }, [trainers, isLoading]);
 
-  const onEdit = (sportCenter: SportCenter) => {
-    setSelectedData(sportCenter); // Se almacenan los datos del centro deportivo a editar
-    setEditingId(sportCenter.sport_center_id); // Actualizamos el ID de edición
+  const onEdit = (trainer: Trainer) => {
+    setSelectedData(trainer); // Se almacenan los datos del centro deportivo a editar
+    setEditingId(trainer.user_id); // Actualizamos el ID de edición
     setIsEditFormOpen(true); // Se abre el formulario de edición
   };
 
-  const onDelete = (id: number) => {
-    console.log(`Eliminar entrenador con ID: ${id}`);
-    // Lógica para eliminar el centro deportivo
+  const onDelete = (id: string) => {
+    if (confirm("¿Estás seguro de que deseas eliminar este entrenador?")) {
+      deleteTrainers(id);  // Llama a la función de eliminación del hook
+    }
   };
 
   const handleCloseForm = () => {
@@ -62,41 +64,33 @@ export function TableTrainer() {
     setEditingId(null); // Limpiamos el ID de edición
   };
 
-  const columns: ColumnDef<SportCenter, any>[] = [
-    columnHelper.accessor('sport_center_id', {
-      header: 'ID',
-      cell: (info) => info.getValue(),
-    }),
-    columnHelper.accessor('sport_center_name', {
+  const columns: ColumnDef<Trainer, any>[] = [
+    columnHelper.accessor('first_name', {
       header: 'Nombre',
       cell: (info) => info.getValue(),
     }),
-    columnHelper.accessor('city_name', {
-      header: 'Ciudad',
+    columnHelper.accessor('last_name', {
+      header: 'Apellido',
       cell: (info) => info.getValue(),
     }),
-    columnHelper.accessor('comuna_name', {
-      header: 'Comuna',
+    columnHelper.accessor('genre', {
+      header: 'Sexo',
       cell: (info) => info.getValue(),
     }),
-    columnHelper.accessor('address', {
-      header: 'Dirección',
+    columnHelper.accessor('email', {
+      header: 'Correo eléctronico',
       cell: (info) => info.getValue(),
     }),
     columnHelper.accessor('phone', {
       header: 'Teléfono',
       cell: (info) => info.getValue(),
     }),
-    columnHelper.accessor('mail', {
-      header: 'Correo',
+    columnHelper.accessor('rut', {
+      header: 'RUT',
       cell: (info) => info.getValue(),
     }),
-    columnHelper.accessor('open_hour', {
-      header: 'Hora de apertura',
-      cell: (info) => info.getValue(),
-    }),
-    columnHelper.accessor('close_hour', {
-      header: 'Hora de cierre',
+    columnHelper.accessor('salary', {
+      header: 'Salario',
       cell: (info) => info.getValue(),
     }),
     columnHelper.display({
@@ -105,22 +99,22 @@ export function TableTrainer() {
       cell: (info) => (
         <div className="flex gap-2">
             <Button 
-              className='bg-green-600'
+              className='bg-green-700'
               variant="outline" 
               onClick={()=> {
                 onEdit(info.row.original);
                 setOpenDialog(true);
               }}
               >
-                <PencilIcon className="ml-2" />
+              <PencilIcon className="" />
             </Button>
 
-          <button
-            onClick={() => onDelete(info.row.original.sport_center_id)} // Acción de eliminación
+          <Button
+            onClick={() => onDelete(info.row.original.user_id)} // Acción de eliminación
             className="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors shadow-md"
           >
-            Eliminar
-          </button>
+            <Trash2 />
+          </Button>
         </div>
       ),
     }),
@@ -130,7 +124,7 @@ export function TableTrainer() {
 
   return (
     <div>
-      <DataTable<SportCenter>
+      <DataTable<Trainer>
         data={data}
         columns={columns}
         isLoading={isLoading}
@@ -140,7 +134,7 @@ export function TableTrainer() {
       {isEditFormOpen && selectedData && (
         <Dialog open={openDialog} onOpenChange={setOpenDialog}>
         <DialogContent>
-        <DialogTitle>Actualizar Centro</DialogTitle> {/* Título accesible */}
+        <DialogTitle>Actualizar Entrenador</DialogTitle> {/* Título accesible */}
             <DialogHeader>
                 <DialogDescription>
                     <TrainerForm 

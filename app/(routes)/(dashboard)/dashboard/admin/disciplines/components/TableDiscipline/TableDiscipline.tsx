@@ -1,90 +1,131 @@
-"use client";
+"use client"
 
 import { useState, useEffect } from 'react';
 import { DataTable } from '@/components/ui/DataTable';
 import { createColumnHelper, ColumnDef } from '@tanstack/react-table';
-import { useSportCenters } from '@/hooks/useSportCenters';
+import { useDiscipline } from '@/hooks/useDiscipline';
+import { Button } from "@/components/ui/button";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog"
+import { PencilIcon, PlusCircle, Trash, Trash2} from "lucide-react";
+import { UUID } from 'crypto';
+import { DisciplineForm } from '../FormAddDiscipline';
 
-// Definir el tipo de datos
-interface SportCenter {
-  sport_center_id: number;
-  sport_center_name: string;
-  city_name: string;   // Usamos city_name en lugar de city_id
-  comuna_name: string; // Usamos comuna_name en lugar de comuna_id
-  address: string;
-  phone: string;
-  mail: string;
-  open_hour: string;
-  close_hour: string;
-}
+type Discipline = {
+  discipline_id:number;
+  discipline_name: string;
+  trainer_id: string;
+  student_max_quantity: number;
+};
 
-// Crear el helper para las columnas
-const columnHelper = createColumnHelper<SportCenter>();
+const columnHelper = createColumnHelper<Discipline>();
 
-// Definir las columnas
-const columns: ColumnDef<SportCenter, any>[] = [
-  columnHelper.accessor('sport_center_id', {
-    header: 'ID',
-    cell: (info) => info.getValue(),
-  }),
-  columnHelper.accessor('sport_center_name', {
-    header: 'Nombre',
-    cell: (info) => info.getValue(),
-  }),
-  columnHelper.accessor('city_name', { // Cambiado city_id por city_name
-    header: 'Ciudad',
-    cell: (info) => info.getValue(),
-  }),
-  columnHelper.accessor('comuna_name', { // Cambiado comuna_id por comuna_name
-    header: 'Comuna',
-    cell: (info) => info.getValue(),
-  }),
-  columnHelper.accessor('address', {
-    header: 'Dirección',
-    cell: (info) => info.getValue(),
-  }),
-  columnHelper.accessor('phone', {
-    header: 'Teléfono',
-    cell: (info) => info.getValue(),
-  }),
-  columnHelper.accessor('mail', {
-    header: 'Correo',
-    cell: (info) => info.getValue(),
-  }),
-  columnHelper.accessor('open_hour', {
-    header: 'Hora de apertura',
-    cell: (info) => info.getValue(),
-  }),
-  columnHelper.accessor('close_hour', {
-    header: 'Hora de cierre',
-    cell: (info) => info.getValue(),
-  }),
-];
+export function TableDiscipline() {
+  const { disciplines, isLoading, deleteDisciplines } = useDiscipline();
+  const [data, setData] = useState<Discipline[]>([]);
+  const [selectedData, setSelectedData] = useState<Discipline | null>(null);
+  const [isEditFormOpen, setIsEditFormOpen] = useState(false);
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [openDialog, setOpenDialog] = useState(false);
 
-// Componente principal
-export function TableSportCenter() {
-  const { sportCenters, isLoading } = useSportCenters();
-
-  const [data, setData] = useState<SportCenter[]>([]);
 
   useEffect(() => {
-    console.log('sportCenters:', sportCenters);
-    // Comparación profunda utilizando JSON.stringify para evitar actualizaciones infinitas
-    if (!isLoading && JSON.stringify(sportCenters) !== JSON.stringify(data)) {
-      setData(sportCenters);
+    if (!isLoading && JSON.stringify(disciplines) !== JSON.stringify(data)) {
+      setData(disciplines);
     }
-  }, [sportCenters, isLoading]); // Eliminamos `data` de las dependencias
+  }, [disciplines, isLoading]);
+
+  const onEdit = (discipline: Discipline) => {
+    setSelectedData(discipline); // Se almacenan los datos del centro deportivo a editar
+    setEditingId(discipline.discipline_id); // Actualizamos el ID de edición
+    setIsEditFormOpen(true); // Se abre el formulario de edición
+  };
+
+  const onDelete = (id: number) => {
+    if (confirm("¿Estás seguro de que deseas eliminar este entrenador?")) {
+      deleteDisciplines(id);  // Llama a la función de eliminación del hook
+    }
+  };
+
+  const handleCloseForm = () => {
+    setIsEditFormOpen(false);
+    setSelectedData(null); // Se limpia la selección
+    setEditingId(null); // Limpiamos el ID de edición
+  };
+
+  const columns: ColumnDef<Discipline, any>[] = [
+    columnHelper.accessor('discipline_name', {
+      header: 'Nombre',
+      cell: (info) => info.getValue(),
+    }),
+    columnHelper.accessor('trainer_id', {
+      header: 'Entrenador',
+      cell: (info) => info.getValue(),
+    }),
+    columnHelper.accessor('student_max_quantity', {
+      header: 'Max. cantidad Alumnos',
+      cell: (info) => info.getValue(),
+    }),
+    columnHelper.display({
+      id: 'actions',
+      header: 'Acciones',
+      cell: (info) => (
+        <div className="flex gap-2">
+            <Button 
+              className='bg-green-700'
+              variant="outline" 
+              onClick={()=> {
+                onEdit(info.row.original);
+                setOpenDialog(true);
+              }}
+              >
+              <PencilIcon className="" />
+            </Button>
+
+          <Button
+            onClick={() => onDelete(info.row.original.discipline_id)} // Acción de eliminación
+            className="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors shadow-md"
+          >
+            <Trash2 />
+          </Button>
+        </div>
+      ),
+    }),
+  ];
 
   if (isLoading) return <div>Cargando...</div>;
 
   return (
-    <DataTable<SportCenter>
-      data={data}
-      columns={columns}
-      isLoading={isLoading}
-      onRowClick={(row) => console.log('Row clicked:', row)}
-      pageSize={10}
-      pageSizeOptions={[5, 10, 20, 50]}
-    />
+    <div>
+      <DataTable<Discipline>
+        data={data}
+        columns={columns}
+        isLoading={isLoading}
+        pageSize={10}
+        pageSizeOptions={[5, 10, 20, 50]}
+      />
+      {isEditFormOpen && selectedData && (
+        <Dialog open={openDialog} onOpenChange={setOpenDialog}>
+        <DialogContent>
+        <DialogTitle>Actualizar Disciplina</DialogTitle> {/* Título accesible */}
+            <DialogHeader>
+                <DialogDescription>
+                    <DisciplineForm 
+                    editingId={editingId}
+                    setEditingId={setEditingId}
+                    setOpenDialog={setOpenDialog}/>
+                </DialogDescription>    
+            </DialogHeader>
+        </DialogContent>
+    </Dialog>
+        
+      )}
+    </div>
   );
 }

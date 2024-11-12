@@ -15,10 +15,11 @@ import {
 } from "@/components/ui/form";
 import { trainerFormSchema } from "./FormAddTrainer.form";
 import { useTrainers } from "@/hooks/useTrainer";
+import { UUID } from "crypto";
 
 
 type Trainer = {
-    id:string;
+    user_id:string;
     first_name: string;
     last_name: string;
     genre: string;
@@ -50,9 +51,9 @@ export function TrainerForm({ editingId, setEditingId, setOpenDialog }: { editin
     if (editingId) {
         console.log('Editing trainer with ID:', editingId);
         
-        const trainer = trainers.find((t: Trainer) => t.id === editingId); 
+        const trainer = trainers.find((t: Trainer) => t.user_id === editingId); 
         console.log('Trainer:', trainer);
-
+        
         if (trainer) {
             console.log('Found trainer:', trainer);
             form.reset({
@@ -60,10 +61,10 @@ export function TrainerForm({ editingId, setEditingId, setOpenDialog }: { editin
               last_name: trainer.last_name,
               genre: trainer.genre,
               email: trainer.email,
-              phone: trainer.phone,
+              phone: trainer.phone.toString(),
               password: trainer.password,
               rut: trainer.rut,
-              salary: trainer.salary,
+              salary: trainer.salary.toString(),
             });
         }
     } else {
@@ -100,7 +101,7 @@ export function TrainerForm({ editingId, setEditingId, setOpenDialog }: { editin
     };
 
     const handleEdit = (trainer: Trainer) => {
-        setEditingId(trainer.id);
+        setEditingId(trainer.user_id);
     };
 
     const handleDelete = async (id: number) => {
@@ -215,7 +216,7 @@ export function TrainerForm({ editingId, setEditingId, setOpenDialog }: { editin
         </div>
         <div className="space-x-4">
           <Button type="submit" className="w-full lg:w-auto">
-            {editingId ? "Actualizar Centro" : "Crear Centro"}
+            {editingId ? "Actualizar Entrenador" : "Crear Entrenador"}
           </Button>
         </div>
       </form>

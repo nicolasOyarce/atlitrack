@@ -46,7 +46,7 @@ export const useTrainers = () => {
   });
 
   const deleteMutation = useMutation({
-    mutationFn: (id: number) => trainerService.delete(id),
+    mutationFn: (id: string) => trainerService.delete(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['trainers'] });
       toast.success('Trainer eliminado exitosamente');
