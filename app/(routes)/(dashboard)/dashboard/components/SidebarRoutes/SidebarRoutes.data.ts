@@ -32,14 +32,19 @@ export const dataAdminSidebar = [
         href:"sport-center-manager"
     },
     {
+        icon: Calendar,
+        label: "Entrenadores",
+        href:"trainer-manager"
+    },
+    {
         icon: PersonStanding,
         label: "Disciplinas",
         href:"disciplines"
     },
     {
-        icon: Calendar,
-        label: "Entrenadores",
-        href:"trainer-manager"
+        icon: PersonStanding,
+        label: "Planes",
+        href:"plans"
     },
     {
         icon: ChartLine,
