@@ -17,6 +17,7 @@ import { disciplineFormSchema } from "./FormAddDiscipline.form";
 import { useDiscipline } from "@/hooks/useDiscipline";
 import { useTrainers } from "@/hooks/useTrainer";
 import { TrainerSelect } from "@/components/ui/TrainerSelect";
+import GenericSelect from "@/components/ui/GenericSelect";
 
 
 type Discipline = {
@@ -39,20 +40,12 @@ export function DisciplineForm({ editingId, setEditingId, setOpenDialog }: { edi
         student_max_quantity: "",
     },
   });
-  const handleSelectTrainer = (trainerId: string) => {
-    setSelectedTrainer(trainerId);
-    console.log(`Entrenador seleccionado: ${trainerId}`);
-};
+
   useEffect(() => {
     if (editingId) {
-        console.log('Editing trainer with ID:', editingId);
-        
         const discipline = disciplines.find((d: Discipline) => d.discipline_id === editingId);
-        console.log('Discipline found:', discipline);
-        console.log("Trainer ID en el formulario:", form.getValues("trainer_id"));
-        console.log(selectedTrainer)
+
         if (discipline) {
-            console.log('Discipline data for form:', discipline);
             form.reset({
                 discipline_name: discipline.discipline_name,
                 trainer_id: discipline.trainer_id || selectedTrainer, // Aquí se asegura que trainer_id esté correctamente definido
@@ -66,7 +59,7 @@ export function DisciplineForm({ editingId, setEditingId, setOpenDialog }: { edi
             student_max_quantity: "",
         });
     }
-  }, [editingId, disciplines]);
+  }, [editingId, disciplines, form]);
 
    
 
@@ -88,9 +81,6 @@ export function DisciplineForm({ editingId, setEditingId, setOpenDialog }: { edi
       }
     };
   
-  const handleEdit = (discipline: Discipline) => {
-      setEditingId(discipline.discipline_id);
-  };
 
   if (isLoading) return <div>Cargando...</div>;
 
@@ -110,24 +100,7 @@ export function DisciplineForm({ editingId, setEditingId, setOpenDialog }: { edi
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="trainer_id"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Nombre Entrenador</FormLabel>
-                <FormControl>
-                <TrainerSelect 
-                  trainers={trainers}
-                  selectedTrainer={field.value}       // Pasa el valor actual de trainer_id
-                  onSelect={field.onChange}  
-              />
-
-                </FormControl>
-                
-              </FormItem>
-            )}
-          />
+          <TrainerSelect trainers={trainers} />
           <FormField
             control={form.control}
             name="student_max_quantity"

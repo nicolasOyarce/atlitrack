@@ -1,5 +1,8 @@
 // components/TrainerSelect.tsx
 import React from 'react';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
+import { FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form';
+import { useFormContext } from 'react-hook-form';
 
 type Trainer = {
   user_id: string;
@@ -10,27 +13,53 @@ type Trainer = {
 
 type TrainerSelectProps = {
   trainers: Trainer[];
-  onSelect: (selectedId: string) => void; // Para manejar el cambio de selección
-  selectedTrainer?: string; // Etiqueta opcional para el campo select
+  label?: string;// Etiqueta opcional para el campo select
 };
 
-export const TrainerSelect: React.FC<TrainerSelectProps> = ({ trainers, onSelect, selectedTrainer }) => {
+export const TrainerSelect: React.FC<TrainerSelectProps> = ({ 
+  trainers, 
+  label = "Entrenadores" }) => {
+  const form = useFormContext();
   return (
-    <div>
-      
-      <select
-        value={selectedTrainer || ""}
-        name="trainer-select"
-        className="block w-full mt-1 p-2 border rounded-md shadow-sm"
-        onChange={(e) => onSelect(e.target.value)} // Llama a la función onSelect cuando cambia la selección
-      >
-        <option value="">Seleccionar...</option>
-        {trainers.map((trainer) => (
-          <option key={trainer.user_id} value={trainer.email}>
-            {`${trainer.first_name} ${trainer.last_name}`}
-          </option>
-        ))}
-      </select>
-    </div>
+    <FormField
+      control={form.control}
+      name="trainer_id" // Nombre del campo en el formulario
+      render={({ field }) => {
+        // Encuentra el entrenador seleccionado para mostrar el nombre completo
+        const selectedTrainer = trainers.find(trainer => trainer.email === field.value);
+
+        return (
+          <FormItem>
+            <FormLabel>{label}</FormLabel>
+            <FormControl>
+              <Select
+                value={field.value}
+                onValueChange={field.onChange}
+                defaultValue={field.value}
+              >
+                <SelectTrigger className="w-full">
+                  <span>
+                    {selectedTrainer? `${selectedTrainer.first_name} ${selectedTrainer.last_name}`
+                      : "Selecciona un entrenador"}
+                  </span>
+                </SelectTrigger>
+                <SelectContent>
+                  {trainers.map((trainer) => (
+                    <SelectItem 
+                      key={`trainer-${trainer.user_id}`}
+                      value={trainer.email} // Usa el email como valor
+                      className="cursor-pointer"
+                    >
+                      {trainer.first_name} {trainer.last_name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        );
+      }}
+    />
   );
 };

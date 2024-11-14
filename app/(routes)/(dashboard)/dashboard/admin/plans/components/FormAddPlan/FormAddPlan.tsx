@@ -17,6 +17,7 @@ import { planFormSchema } from "./FormAddPlan.form";
 import { usePlan } from "@/hooks/usePlan";
 import DisciplineSelect from '@/components/ui/SelectDisciplina'
 import { useDiscipline } from "@/hooks/useDiscipline";
+import GenericSelect from "@/components/ui/GenericSelect";
 
 
 type Plan = {
@@ -34,6 +35,7 @@ export function PlanForm({ editingId, setEditingId, setOpenDialog }: { editingId
   const { plans, isLoading, createPlans, updatePlans, deletePlans } = usePlan();
   const { disciplines } = useDiscipline();
   const [selectedDiscipline, setSelectedDiscipline] = useState<string>('');
+  
   const form = useForm<z.infer<typeof planFormSchema>>({
     resolver: zodResolver(planFormSchema),
     defaultValues: {
@@ -47,14 +49,15 @@ export function PlanForm({ editingId, setEditingId, setOpenDialog }: { editingId
     },
   });
  
+ 
   useEffect(() => {
     if (editingId) {
        
-        const plan = plans.find((d: Plan) => d.plan_id === editingId);
+        const plan = plans.find((p: Plan) => p.plan_id === editingId);
 
         if (plan) {
             console.log('Plan data for form:', plan);
-            form.reset({
+            const formData= {
               discipline_id: plan.discipline_id,
               plan_name: plan.plan_name,
               description: plan.description,
@@ -62,8 +65,11 @@ export function PlanForm({ editingId, setEditingId, setOpenDialog }: { editingId
               duration: plan.duration.toString(),
               price: plan.price.toString(),
               is_active: true
-            });
-        }
+        };
+            console.log('Setting form data:', formData);
+            form.reset(formData);
+      }
+        
     } else {
         form.reset({
           discipline_id: "",
@@ -75,15 +81,13 @@ export function PlanForm({ editingId, setEditingId, setOpenDialog }: { editingId
           is_active: true
         });
     }
-  }, [editingId, plans]);
+  }, [editingId, plans, form]);
 
    
 
   const onSubmit = async (values: z.infer<typeof planFormSchema>) => {
       try {
       if (editingId) {
-          console.log("id::",editingId)
-          console.log("data::", values)
           await updatePlans({ id: editingId, data: values });
           
           setEditingId(null);
@@ -97,9 +101,6 @@ export function PlanForm({ editingId, setEditingId, setOpenDialog }: { editingId
       }
     };
   
-  const handleEdit = (plan: Plan) => {
-      setEditingId(plan.plan_id);
-  };
 
   if (isLoading) return <div>Cargando...</div>;
 
@@ -107,22 +108,15 @@ export function PlanForm({ editingId, setEditingId, setOpenDialog }: { editingId
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <div className="grid gap-6 lg:grid-cols-2">
-          <FormField
-            control={form.control}
-            name="discipline_id"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Selecciona disciplina</FormLabel>
-                <FormControl>
-                <DisciplineSelect
-                  disciplines={disciplines}
-                  value={selectedDiscipline}
-                  onValueChange={setSelectedDiscipline}
-                />
-                </FormControl>
-              </FormItem>
-            )}
-          />
+        <GenericSelect
+          data={disciplines}
+          valueKey="discipline_id"
+          valueKey2="discipline_name"
+          labelKey="discipline_name"
+          name="discipline_id"
+          label="Disciplina"
+        />
+
           <FormField
             control={form.control}
             name="plan_name"

@@ -104,7 +104,7 @@ export function TrainerForm({ editingId, setEditingId, setOpenDialog }: { editin
         setEditingId(trainer.user_id);
     };
 
-    const handleDelete = async (id: number) => {
+    const handleDelete = async (id: string) => {
         if (window.confirm("¿Estás seguro de eliminar este Entrenador?")) {
         await deleteTrainers(id);
         }
