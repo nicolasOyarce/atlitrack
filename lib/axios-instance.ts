@@ -1,5 +1,4 @@
-import axios from 'axios';
-import { getCookie } from 'cookies-next';
+import axios, { AxiosError } from 'axios';
 
 console.log('Configurando axios instance');
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -13,23 +12,12 @@ export const axiosInstance = axios.create({
   },
 });
 
-// Interceptor para agregar el token JWT
-axiosInstance.interceptors.request.use(
-  (config) => {
-    const token = getCookie('access_token');
-    console.log('Token en interceptor:', token);
-    console.log('Headers antes:', config.headers);
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-      console.log('Headers después:', config.headers);
-    }
-    return config;
-  },
-  (error) => {
-    console.error('Error en interceptor de request:', error);
-    return Promise.reject(error);
-  }
-);
+export interface AuthResponse {
+  access_token: string;
+  token_type: string;
+}
+
+{/*
 axiosInstance.interceptors.response.use(
     (response) => response,
     async (error) => {
@@ -46,3 +34,43 @@ axiosInstance.interceptors.response.use(
       return Promise.reject(error);
     }
   );
+
+
+  export interface User {
+    id: string;
+    username: string;
+    role: string;
+    // Otros campos necesarios
+  }
+
+*/}
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    console.log("Interceptor: Error detectado:", error);
+    if (error.response?.status === 401 && !error.config._retry) {
+      error.config._retry = true;
+      try {
+        const refreshResponse = await axios.post<AuthResponse>(
+          "/auth/refresh",
+          {},
+          { withCredentials: true }
+        );
+        console.log("refresh goodd..")
+        const newAccessToken = refreshResponse.data.access_token;
+        console.log(newAccessToken)
+        error.config.headers = {
+          ...error.config.headers,
+          Authorization: `Bearer ${newAccessToken}`,
+        };
+
+        return axiosInstance.request(error.config); // Reintenta la solicitud
+      } catch (refreshError) {
+        console.error("Error al refrescar el token:", refreshError);
+        return Promise.reject(refreshError);
+      }
+    }
+    return Promise.reject(error);
+  }
+);
+

@@ -3,8 +3,6 @@
 import { useState, useEffect } from 'react';
 import { DataTable } from '@/components/ui/DataTable';
 import { createColumnHelper, ColumnDef } from '@tanstack/react-table';
-import { useSportCenters } from '@/hooks/useSportCenters';
-import { SportCenterForm } from '../FormAddSportCenter';
 import { Button } from "@/components/ui/button";
 import {
     Dialog,
@@ -30,21 +28,21 @@ interface SportCenter {
 
 const columnHelper = createColumnHelper<SportCenter>();
 
-export function TableSportCenter() {
-  const { sportCenters, isLoading } = useSportCenters();
+export function TableScheduleDiscipline() {
+  //const { scheduleDiscipline, isLoading } = useState();//useScheduleDiscipline();
   const [data, setData] = useState<SportCenter[]>([]);
   const [selectedData, setSelectedData] = useState<SportCenter | null>(null);
   const [isEditFormOpen, setIsEditFormOpen] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [openDialog, setOpenDialog] = useState(false);
 
-
+{/*}
   useEffect(() => {
-    if (!isLoading && JSON.stringify(sportCenters) !== JSON.stringify(data)) {
-      setData(sportCenters);
+    if (!isLoading && JSON.stringify(scheduleDiscipline) !== JSON.stringify(data)) {
+      setData(scheduleDiscipline);
     }
-  }, [sportCenters, isLoading]);
-
+  }, [scheduleDiscipline, isLoading]);
+*/}
   const onEdit = (sportCenter: SportCenter) => {
     setSelectedData(sportCenter); // Se almacenan los datos del centro deportivo a editar
     setEditingId(sportCenter.sport_center_id); // Actualizamos el ID de edición
@@ -64,41 +62,22 @@ export function TableSportCenter() {
 
   const columns: ColumnDef<SportCenter, any>[] = [
     columnHelper.accessor('sport_center_id', {
-      header: 'ID',
+      header: 'Disciplina',
       cell: (info) => info.getValue(),
     }),
     columnHelper.accessor('sport_center_name', {
-      header: 'Nombre',
+      header: 'Día',
       cell: (info) => info.getValue(),
     }),
     columnHelper.accessor('city_name', {
-      header: 'Ciudad',
+      header: 'Hora inicio',
       cell: (info) => info.getValue(),
     }),
     columnHelper.accessor('comuna_name', {
-      header: 'Comuna',
+      header: 'Hora termino',
       cell: (info) => info.getValue(),
     }),
-    columnHelper.accessor('address', {
-      header: 'Dirección',
-      cell: (info) => info.getValue(),
-    }),
-    columnHelper.accessor('phone', {
-      header: 'Teléfono',
-      cell: (info) => info.getValue(),
-    }),
-    columnHelper.accessor('mail', {
-      header: 'Correo',
-      cell: (info) => info.getValue(),
-    }),
-    columnHelper.accessor('open_hour', {
-      header: 'Hora de apertura',
-      cell: (info) => info.getValue(),
-    }),
-    columnHelper.accessor('close_hour', {
-      header: 'Hora de cierre',
-      cell: (info) => info.getValue(),
-    }),
+    
     columnHelper.display({
       id: 'actions',
       header: 'Acciones',
@@ -126,33 +105,23 @@ export function TableSportCenter() {
     }),
   ];
 
-  if (isLoading) return <div>Cargando...</div>;
+  //if (isLoading) return <div>Cargando...</div>;
 
   return (
     <div>
       <DataTable<SportCenter>
         data={data}
         columns={columns}
-        isLoading={isLoading}
+        //isLoading={isLoading}
         pageSize={10}
         pageSizeOptions={[5, 10, 20, 50]}
       />
       {isEditFormOpen && selectedData && (
-      <Dialog open={openDialog} onOpenChange={setOpenDialog}>
-        <DialogContent>
-          <DialogTitle>Actualizar Centro</DialogTitle> {/* Título accesible */}
-            <DialogHeader>
-                <DialogDescription>
-                    <SportCenterForm 
-                    editingId={editingId}
-                    setEditingId={setEditingId}
-                    setOpenDialog={setOpenDialog}/>
-                </DialogDescription>    
-            </DialogHeader>
-        </DialogContent>
-      </Dialog>
-        
+        <div></div>
       )}
     </div>
   );
 }
+
+
+export default TableScheduleDiscipline

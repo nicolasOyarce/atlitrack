@@ -11,14 +11,21 @@ export default function LoginPage() {
     username: "",
     password: "",
   })
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setErrorMessage("");
+    if (!formData.username || !formData.password) {
+      alert("Por favor completa todos los campos");
+      return;
+    }
     try {
       await login(formData.username, formData.password)
     } catch (error) {
       // El error ya es manejado en el contexto
       console.error(error)
+      setErrorMessage("Error de autenticación. Verifica tus credenciales.");
     }
   }
 

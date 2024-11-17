@@ -36,17 +36,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // Configuración base de axios
   axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
+  axios.defaults.withCredentials = true;
 
   // Obtener el token desde las cookies al cargar
   useEffect(() => {
     const initializeAuth = async () => {
       try {
-        const response = await fetch('/api/auth/token'); // Llamar a la API Route para obtener el token
-        const data = await response.json();
-
-        if (data.access_token) {
-          axios.defaults.headers.common["Authorization"] = `Bearer ${data.access_token}`;
-          setUser(data); // Establece el usuario con los datos obtenidos
+        const response = await fetch('/api/auth/token', {
+          method: 'GET',
+          credentials: 'include'  // Asegúrate de enviar las cookies
+        });
+  
+        if (response.ok) {
+          const data = await response.json();
+          setUser(data);  // Aquí asignas el usuario desde la respuesta
+        } else {
+          console.log("Usuario no autenticado.");
+          setUser(null);  // Si la respuesta no es 200, el usuario no está autenticado
         }
       } catch (error) {
         console.error('Error al obtener el token:', error);
@@ -63,7 +69,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const interceptor = axios.interceptors.response.use(
       response => response,
       error => {
+        console.log("ERROR", error)
         if (error.response?.status === 401) {
+          console.log("Error 301 detectado jaja")
           logout();
         }
         return Promise.reject(error);
@@ -75,30 +83,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = async (username: string, password: string) => {
     try {
-      setIsLoading(true);
-      const formData = new URLSearchParams();
-      formData.append("username", username);
-      formData.append("password", password);
-
-      const response = await axios.post("/auth/token", formData.toString(), {
+      const response = await axios.post("/auth/token", new URLSearchParams({
+        username,
+        password
+      }), {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded"
-        }
+        },
+        withCredentials: true,  // Asegúrate de enviar cookies en las solicitudes
       });
-
-      const { access_token } = response.data;
-
-      // Almacenar el token en las cookies (deberías implementar un setCookie en el lado del servidor)
-      document.cookie = `access_token=${access_token}; path=/; secure; SameSite=Strict`;
-
-      // Establecer el token en los headers de axios
-      axios.defaults.headers.common["Authorization"] = `Bearer ${access_token}`;
-
-      // Almacenar en localStorage si es necesario
-      localStorage.setItem("token", access_token);
-
+      //await new Promise((resolve) => setTimeout(resolve, 1000))
       setUser(response.data);
-      router.push("/dashboard/admin/sport-center-manager"); // Redirige al dashboard o página de inicio después del login
+      
+      // Redirigir a la página deseada
+      router.push("/dashboard/admin/sport-center-manager");// Redirige al dashboard o página de inicio después del login
     } catch (error) {
       console.error("Error de inicio de sesión:", error);
       throw error;
@@ -107,15 +105,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const logout = () => {
-    setUser(null);
-    localStorage.removeItem("token");
-    delete axios.defaults.headers.common["Authorization"];
-
-    // Eliminar el token de las cookies
-    document.cookie = "access_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT"; // Eliminar cookie
-
-    router.push("/sign-in");
+  const logout = async () => {
+    try {
+      console.log("Redirigiendo al sign-in..")
+      await axios.post("/auth/logout");
+      setUser(null);
+      router.push("/sign-in"); // Redirige al iniciar sesión
+    } catch (error) {
+      console.error("Error al cerrar sesión:", error);
+    }
   };
 
   return (

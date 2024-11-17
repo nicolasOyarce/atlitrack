@@ -29,22 +29,22 @@ export const dataAdminSidebar = [
     {
         icon: FileSliders,
         label: "Administrar Centros Deportivos",
-        href:"sport-center-manager"
+        href:"/dashboard/admin/sport-center-manager"
     },
     {
         icon: Calendar,
         label: "Entrenadores",
-        href:"trainer-manager"
+        href:"/dashboard/admin/trainer-manager"
     },
     {
         icon: PersonStanding,
         label: "Disciplinas",
-        href:"disciplines"
+        href:"/dashboard/admin/disciplines"
     },
     {
         icon: PersonStanding,
         label: "Planes",
-        href:"plans"
+        href:"/dashboard/admin/plans"
     },
     {
         icon: ChartLine,

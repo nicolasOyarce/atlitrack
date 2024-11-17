@@ -406,3 +406,13 @@ export const communes = [
   { id: 345, name: 'Cabo de Hornos', cityId: 56 },
   { id: 346, name: 'Antártica', cityId: 56 }
 ];
+
+export const DaysOptions = [
+  { value: 1, label: "Lunes" },
+  { value: 2, label: "Martes" },
+  { value: 3, label: "Miercoles" },
+  { value: 4, label: "Jueves" },
+  { value: 5, label: "Viernes" },
+  { value: 6, label: "Sabado" },
+  { value: 7, label: "Domingo" }
+]

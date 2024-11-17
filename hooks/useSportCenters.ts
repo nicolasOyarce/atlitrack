@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { sportCenterService, SportCenter } from '@/services/sport_center.service';
 import { toast } from 'sonner';
+import { axiosInstance } from '@/lib/axios-instance';
 
 export const useSportCenters = () => {
   console.log('Hook useSportCenters ejecutándose');
@@ -19,7 +20,6 @@ export const useSportCenters = () => {
       console.log('Iniciando fetch de sport centers');
       try {
         const response = await sportCenterService.getAll();
-        console.log('Respuesta de sport centers:', response);
         return response;
       } catch (error) {
         console.error('Error en fetch de sport centers:', error);

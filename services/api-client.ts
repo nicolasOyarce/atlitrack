@@ -41,24 +41,7 @@ export class ApiClient<T> {
       
         try {
           console.log('ApiClient: Iniciando data en create() en', data);
-      
-          // Obtener el token de acceso desde las cookies
-          const token = document.cookie
-            .split('; ')
-            .find(row => row.startsWith('access_token='))
-            ?.split('=')[1]; // Extrae el valor del token
-      
-          if (!token) {
-            throw new Error("Token de acceso no encontrado");
-          }
-      
-          const response = await axiosInstance.post<ApiResponse<T>>(endpoint, data, {
-            headers: {
-              Authorization: `Bearer ${token}`, // Incluir el token en el encabezado Authorization
-            },
-          });
-      
-          console.log(response.data);
+          const response = await axiosInstance.post<ApiResponse<T>>(endpoint, data);
           return response.data;
         } catch (error: any) {
           console.log('create()ERROR: ', error);

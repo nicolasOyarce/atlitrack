@@ -13,10 +13,9 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import { PencilIcon, PlusCircle, Trash, Trash2, Calendar} from "lucide-react";
+import { PencilIcon, PlusCircle, Trash, Trash2} from "lucide-react";
 import { UUID } from 'crypto';
-import { DisciplineForm } from '../FormAddDiscipline';
-import { useRouter } from "next/navigation";
+import { DisciplineForm } from '../FormAddStudent';
 
 type Discipline = {
   discipline_id:number;
@@ -34,7 +33,7 @@ export function TableDiscipline() {
   const [isEditFormOpen, setIsEditFormOpen] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [openDialog, setOpenDialog] = useState(false);
-  const router = useRouter();
+
 
   useEffect(() => {
     if (!isLoading && JSON.stringify(disciplines) !== JSON.stringify(data)) {
@@ -88,13 +87,7 @@ export function TableDiscipline() {
               >
               <PencilIcon className="" />
             </Button>
-          <Button
-          onClick={() => {
-          const rowId = info.row.original.discipline_name
-          router.push(`/dashboard/admin/disciplines/${rowId}`)
-          }}>
-            <Calendar />
-          </Button>
+
           <Button
             onClick={() => onDelete(info.row.original.discipline_id)} // Acción de eliminación
             className="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors shadow-md"

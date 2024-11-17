@@ -6,9 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "generate-client": "openapi-ts --input http://localhost:8000/openapi.json --output ./src/client --client axios"
   },
   "dependencies": {
+    "@hey-api/client-axios": "^0.2.10",
     "@hookform/resolvers": "^3.9.1",
     "@radix-ui/react-dialog": "^1.1.2",
     "@radix-ui/react-label": "^2.1.0",
@@ -22,6 +24,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "cookies-next": "^4.3.0",
+    "jose": "^5.9.6",
     "js-cookie": "^3.0.5",
     "lucide-react": "^0.447.0",
     "next": "14.2.14",
@@ -35,6 +38,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@hey-api/openapi-ts": "^0.55.3",
     "@types/js-cookie": "^3.0.6",
     "@types/node": "^20",
     "@types/react": "^18",
