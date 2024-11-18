@@ -11,68 +11,75 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
+  FormLabel, 
 } from "@/components/ui/form";
-import { disciplineFormSchema } from "./FormAddStudent.form";
-import { useDiscipline } from "@/hooks/useDiscipline";
-import { useTrainers } from "@/hooks/useTrainer";
-import { TrainerSelect } from "@/components/ui/TrainerSelect";
+import { subscriptionFormSchema } from "./FormAddStudent.form";
+import { useSubscription } from "@/hooks/useSubscription";
 import GenericSelect from "@/components/ui/GenericSelect";
+import { useSportCenters } from "@/hooks/useSportCenters";
+import { usePlan } from "@/hooks/usePlan";
+import GenericDateInput from "@/components/ui/GenericDateInput";
 
-
-type Discipline = {
-    discipline_id:number;
-    discipline_name: string;
-    trainer_id: string;
-    student_max_quantity: string;
+type Subscription = {
+  student_sportcenter_id: number;
+  sportcenter_id: string;
+  student_id: string;
+  subscription_date: string;
+  expiration_date: string;
+  status: string;
+  last_renewal_date: string;
+  plan_id: string;
   };
 
-export function DisciplineForm({ editingId, setEditingId, setOpenDialog }: { editingId: number | null, setEditingId: React.Dispatch<React.SetStateAction<number | null>>, setOpenDialog: React.Dispatch<React.SetStateAction<boolean>> }) {
-  const { disciplines, isLoading, createDisciplines, updateDisciplines, deleteDisciplines } = useDiscipline();
-  const { trainers } = useTrainers();
-  const [selectedTrainer, setSelectedTrainer] = useState<string>("");
-  
-  const form = useForm<z.infer<typeof disciplineFormSchema>>({
-    resolver: zodResolver(disciplineFormSchema),
+export function SubscriptionForm({ editingId, setEditingId, setOpenDialog }: { editingId: number | null, setEditingId: React.Dispatch<React.SetStateAction<number | null>>, setOpenDialog: React.Dispatch<React.SetStateAction<boolean>> }) {
+  const { students_sportcenter, isLoading, createSubscription, updateSubscription } = useSubscription();
+  const { sportCenters} = useSportCenters();
+  const { plans } = usePlan();
+
+  const form = useForm<z.infer<typeof subscriptionFormSchema>>({
+    resolver: zodResolver(subscriptionFormSchema),
     defaultValues: {
-        discipline_name: "",
-        trainer_id: "",
-        student_max_quantity: "",
+      sportcenter_id: "",
+      student_id: "",
+      subscription_date: "",
+      expiration_date: "",
+      status: "",
+      last_renewal_date: "",
+      plan_id: "",
     },
   });
 
   useEffect(() => {
     if (editingId) {
-        const discipline = disciplines.find((d: Discipline) => d.discipline_id === editingId);
+        const subscription = students_sportcenter.find((s: Subscription) => s.student_sportcenter_id === editingId);
 
-        if (discipline) {
+        if (subscription) {
             form.reset({
-                discipline_name: discipline.discipline_name,
-                trainer_id: discipline.trainer_id || selectedTrainer, // Aquí se asegura que trainer_id esté correctamente definido
-                student_max_quantity: discipline.student_max_quantity.toString(),
+
             });
         }
     } else {
         form.reset({
-            discipline_name: "",
-            trainer_id: "", // Aquí también se usa selectedTrainer para nuevas entradas
-            student_max_quantity: "",
+          sportcenter_id: "",
+          student_id: "",
+          subscription_date: "",
+          expiration_date: "",
+          status: "",
+          last_renewal_date: "",
+          plan_id: "",
         });
     }
-  }, [editingId, disciplines, form]);
+  }, [editingId, students_sportcenter, form]);
 
    
 
-  const onSubmit = async (values: z.infer<typeof disciplineFormSchema>) => {
+  const onSubmit = async (values: z.infer<typeof subscriptionFormSchema>) => {
       try {
       if (editingId) {
-          console.log("id::",editingId)
-          console.log("data::", values)
-          await updateDisciplines({ id: editingId, data: values });
-          
+          await updateSubscription({ id: editingId, data: values });
           setEditingId(null);
       } else {
-          await createDisciplines(values);
+          await createSubscription(values);
       }
       setOpenDialog(false)
       form.reset();
@@ -88,32 +95,30 @@ export function DisciplineForm({ editingId, setEditingId, setOpenDialog }: { edi
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <div className="grid gap-6 lg:grid-cols-2">
-          <FormField
-            control={form.control}
-            name="discipline_name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Nombre</FormLabel>
-                <FormControl>
-                  <Input placeholder="Box" {...field} />
-                </FormControl>
-              </FormItem>
-            )}
+          <GenericSelect
+            data={sportCenters}
+            valueKey="id"
+            valueKey2="sport_center_name"
+            labelKey="sport_center_name"
+            name="sportcenter_id"
+            label="Centro deportivo"
+          />%
+          <GenericSelect
+            data={plans}
+            valueKey="plan_id"
+            valueKey2="plan_name"
+            labelKey="plan_name"
+            name="plan_id"
+            label="Plan"
           />
-          <TrainerSelect trainers={trainers} />
-          <FormField
-            control={form.control}
-            name="student_max_quantity"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Cantidad Max. Alumnos</FormLabel>
-                <FormControl>
-                  <Input placeholder="20" {...field} />
-                </FormControl>
-              </FormItem>
-            )}
-          />
-          
+          <GenericDateInput
+          name="subscription_date"
+          label="Fecha de Enrrolamiento"
+          control={form.control}
+          required
+        />
+        
+         
         </div>
         <div className="space-x-4">
           <Button type="submit" className="w-full lg:w-auto">

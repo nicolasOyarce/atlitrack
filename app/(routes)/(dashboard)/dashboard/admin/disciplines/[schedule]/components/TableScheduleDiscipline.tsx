@@ -39,7 +39,7 @@ export function TableScheduleDiscipline({schedule}: PageProps) {
 
   useEffect(() => {
     if (!isLoading && schedules.length > 0) {
-      const filteredData = schedules.filter(schedule => schedule.discipline_id === decodedName);
+      const filteredData = schedules.filter((schedule: { discipline_id: string; }) => schedule.discipline_id === decodedName); 
       setData(filteredData);
     }
   }, [schedules, isLoading, decodedName]);

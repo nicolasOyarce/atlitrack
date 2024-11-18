@@ -10,10 +10,10 @@ import {
 } from "@/components/ui/dialog"
 import { useState } from "react";
 import { PlusCircle } from "lucide-react";
-import { DisciplineForm } from "../FormAddStudent";
+import { SubscriptionForm } from "../FormAddStudent";
 
 
-export function ButtonAddDiscipline() {
+export function ButtonAddStudent() {
     const [openDialog, setOpenDialog] = useState(false);
     const [editingId, setEditingId] = useState<number | null>(null);
 
@@ -29,7 +29,7 @@ export function ButtonAddDiscipline() {
             <DialogTitle>Agregar una Disciplina</DialogTitle> {/* Título accesible */}
                 <DialogHeader>
                     <DialogDescription>
-                        <DisciplineForm 
+                        <SubscriptionForm 
                             editingId={editingId}
                             setEditingId={setEditingId}
                             setOpenDialog={setOpenDialog}/>

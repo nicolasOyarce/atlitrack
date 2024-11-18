@@ -48,7 +48,7 @@ export const dataAdminSidebar = [
     },
     {
         icon: ChartLine,
-        label: "Reportes",
-        href:"/reports"
+        label: "Alumnos",
+        href:"/dashboard/admin/students"
     },
 ]

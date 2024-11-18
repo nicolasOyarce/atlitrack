@@ -1,17 +1,21 @@
 import { z } from "zod";
 
-export const DisciplineSchema = z.object({
-    discipline_id: z.number().int().positive(),
-    discipline_name: z.string().min(1).max(100),
-    trainer_id: z.string().min(1).max(100).optional(),
-    student_max_quantity: z.string().min(1).max(100)
-    
+export const SubscriptionSchema = z.object({
+    student_sportcenter_id: z.number().int().positive(),
+    sportcenter_id: z.string().min(1).max(100).optional(),
+    student_id: z.string().min(1).max(100).optional(),
+    subscription_date: z.string().min(1).max(100),
+    expiration_date: z.string().min(1).max(100),
+    status: z.string().min(1).max(100),
+    last_renewal_date: z.string().min(1).max(100),
+    plan_id: z.string().min(1).max(100),
+  
 });
 
-export type SportCenter = z.infer<typeof DisciplineSchema>;
+export type Subscription = z.infer<typeof SubscriptionSchema>;
 
-export const disciplineFormSchema = DisciplineSchema.omit({ 
-    discipline_id: true,
+export const subscriptionFormSchema = SubscriptionSchema.omit({ 
+    student_sportcenter_id: true,
 });
 
-export type DisciplineFormSchema = z.infer<typeof disciplineFormSchema>;
+export type SubscriptionFormSchema = z.infer<typeof subscriptionFormSchema>;

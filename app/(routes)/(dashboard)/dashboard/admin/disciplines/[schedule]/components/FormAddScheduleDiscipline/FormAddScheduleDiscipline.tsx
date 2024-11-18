@@ -34,7 +34,7 @@ type TimeValue = {
 
 export function ScheduleDisciplineForm({ editingId, setEditingId, setOpenDialog, discipline_name }: { editingId: number | null, setEditingId: React.Dispatch<React.SetStateAction<number | null>>, setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>, discipline_name: string }) {
   const decodedName = discipline_name ? decodeURIComponent(discipline_name as string) : "";
-  const { scheduleDisciplines, isLoading, createScheduleDisciplines, updateScheduleDisciplines } = useScheduleDiscipline(decodedName);
+  const { schedules, isLoading, createScheduleDisciplines, updateScheduleDisciplines } = useScheduleDiscipline(decodedName);
   const [openHour, setOpenHour] = useState<TimeValue>({ hour: "", minute: "" });
   const [closeHour, setCloseHour] = useState<TimeValue>({ hour: "", minute: "" });
   const [selectedDay, setSelectedDay] = useState<string | null>(null);
@@ -48,18 +48,24 @@ export function ScheduleDisciplineForm({ editingId, setEditingId, setOpenDialog,
         hour_end_class: "",
     },
   });
-
+  const parseTime = (time: string): TimeValue => {
+    const [hour, minute] = time.split(":");
+    return { hour, minute };
+  };
   useEffect(() => {
     if (editingId) {
-        const schedule_discipline = scheduleDisciplines.find((s: ScheduleDiscipline) => s.schedule_for_discipline_id === editingId);
+        const schedule_discipline = schedules.find((s: ScheduleDiscipline) => s.schedule_for_discipline_id === editingId);
 
         if (schedule_discipline) {
             form.reset({
               discipline_id: schedule_discipline.discipline_id,
-              day_id: "",
-              hour_start_class: "",
-              hour_end_class: "",
-            });
+              day_id: schedule_discipline.day_id,
+              hour_start_class: schedule_discipline.hour_start_class,
+              hour_end_class: schedule_discipline.hour_end_class,
+            }
+          );
+          setOpenHour(parseTime(schedule_discipline.hour_start_class));
+          setCloseHour(parseTime(schedule_discipline.hour_end_class));
         }
     } else {
         form.reset({
