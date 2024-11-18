@@ -13,45 +13,47 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 import { PencilIcon, PlusCircle } from "lucide-react";
+import { ScheduleDisciplineForm } from './FormAddScheduleDiscipline';
+import { useScheduleDiscipline } from '@/hooks/useScheduleDiscipline';
 
-interface SportCenter {
-  sport_center_id: number;
-  sport_center_name: string;
-  city_name: string;
-  comuna_name: string;
-  address: string;
-  phone: string;
-  mail: string;
-  open_hour: string;
-  close_hour: string;
-}
+interface ScheduleDiscipline  {
+  schedule_for_discipline_id: number;
+  day_id: string;
+  hour_start_class: string;
+  hour_end_class: string;
+  discipline_id: string;
+};
+type PageProps = {
+  schedule: string
+};
+const columnHelper = createColumnHelper<ScheduleDiscipline>();
 
-const columnHelper = createColumnHelper<SportCenter>();
-
-export function TableScheduleDiscipline() {
-  //const { scheduleDiscipline, isLoading } = useState();//useScheduleDiscipline();
-  const [data, setData] = useState<SportCenter[]>([]);
-  const [selectedData, setSelectedData] = useState<SportCenter | null>(null);
+export function TableScheduleDiscipline({schedule}: PageProps) {
+  const decodedName = schedule ? decodeURIComponent(schedule as string) : "";
+  const { schedules, isLoading, deleteScheduleDisciplines } = useScheduleDiscipline(decodedName);
+  const [data, setData] = useState<ScheduleDiscipline[]>([]);
+  const [selectedData, setSelectedData] = useState<ScheduleDiscipline | null>(null);
   const [isEditFormOpen, setIsEditFormOpen] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [openDialog, setOpenDialog] = useState(false);
 
-{/*}
   useEffect(() => {
-    if (!isLoading && JSON.stringify(scheduleDiscipline) !== JSON.stringify(data)) {
-      setData(scheduleDiscipline);
+    if (!isLoading && schedules.length > 0) {
+      const filteredData = schedules.filter(schedule => schedule.discipline_id === decodedName);
+      setData(filteredData);
     }
-  }, [scheduleDiscipline, isLoading]);
-*/}
-  const onEdit = (sportCenter: SportCenter) => {
-    setSelectedData(sportCenter); // Se almacenan los datos del centro deportivo a editar
-    setEditingId(sportCenter.sport_center_id); // Actualizamos el ID de edición
+  }, [schedules, isLoading, decodedName]);
+  
+
+  const onEdit = (scheduleDiscipline: ScheduleDiscipline) => {
+    setSelectedData(scheduleDiscipline); // Se almacenan los datos del centro deportivo a editar
+    setEditingId(scheduleDiscipline.schedule_for_discipline_id); // Actualizamos el ID de edición
     setIsEditFormOpen(true); // Se abre el formulario de edición
   };
 
   const onDelete = (id: number) => {
     console.log(`Eliminar centro deportivo con ID: ${id}`);
-    // Lógica para eliminar el centro deportivo
+    deleteScheduleDisciplines(id)
   };
 
   const handleCloseForm = () => {
@@ -60,24 +62,24 @@ export function TableScheduleDiscipline() {
     setEditingId(null); // Limpiamos el ID de edición
   };
 
-  const columns: ColumnDef<SportCenter, any>[] = [
-    columnHelper.accessor('sport_center_id', {
-      header: 'Disciplina',
-      cell: (info) => info.getValue(),
-    }),
-    columnHelper.accessor('sport_center_name', {
+  const columns: ColumnDef<ScheduleDiscipline, any>[] = [
+    columnHelper.accessor('day_id', {
       header: 'Día',
       cell: (info) => info.getValue(),
     }),
-    columnHelper.accessor('city_name', {
+    
+    columnHelper.accessor('hour_start_class', {
       header: 'Hora inicio',
       cell: (info) => info.getValue(),
     }),
-    columnHelper.accessor('comuna_name', {
+    columnHelper.accessor('hour_end_class', {
       header: 'Hora termino',
       cell: (info) => info.getValue(),
     }),
-    
+    columnHelper.accessor('discipline_id', {
+      header: 'Disciplina',
+      cell: (info) => info.getValue(),
+    }),
     columnHelper.display({
       id: 'actions',
       header: 'Acciones',
@@ -95,7 +97,7 @@ export function TableScheduleDiscipline() {
             </Button>
 
           <button
-            onClick={() => onDelete(info.row.original.sport_center_id)} // Acción de eliminación
+            onClick={() => onDelete(info.row.original.schedule_for_discipline_id)} // Acción de eliminación
             className="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors shadow-md"
           >
             Eliminar
@@ -105,23 +107,36 @@ export function TableScheduleDiscipline() {
     }),
   ];
 
-  //if (isLoading) return <div>Cargando...</div>;
+  if (isLoading) return <div>Cargando...</div>;
 
   return (
     <div>
-      <DataTable<SportCenter>
+      <DataTable<ScheduleDiscipline>
         data={data}
         columns={columns}
-        //isLoading={isLoading}
+        isLoading={isLoading}
         pageSize={10}
         pageSizeOptions={[5, 10, 20, 50]}
       />
       {isEditFormOpen && selectedData && (
-        <div></div>
+        <Dialog open={openDialog} onOpenChange={setOpenDialog}>
+        <DialogContent>
+        <DialogTitle>Actualizar Disciplina</DialogTitle> {/* Título accesible */}
+            <DialogHeader>
+                <DialogDescription>
+                    <ScheduleDisciplineForm 
+                    editingId={editingId}
+                    setEditingId={setEditingId}
+                    setOpenDialog={setOpenDialog}
+                    discipline_name={schedule}/>
+                </DialogDescription>    
+            </DialogHeader>
+        </DialogContent>
+    </Dialog>
       )}
     </div>
   );
 }
 
 
-export default TableScheduleDiscipline
+//export default TableScheduleDiscipline

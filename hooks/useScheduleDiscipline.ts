@@ -4,16 +4,16 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { scheduleDisciplineService, ScheduleDiscipline } from '@/services/schedule_discipline.service';
 import { toast } from 'sonner';
 
-export const useScheduleDiscipline = () => {
+export const useScheduleDiscipline = (scheduleId: string) => {
   const queryClient = useQueryClient();
 
   const query = useQuery({
-    queryKey: ['schedule_discipline'],
+    queryKey: ['schedules', scheduleId],
     queryFn: async () => {
       console.log('Iniciando fetch de schedule disc');
       try {
-        const response = await scheduleDisciplineService.getAll();
-        console.log('Respuesta de disciplines:', response);
+        const response = await scheduleDisciplineService.getAllWithParams(scheduleId);
+        console.log('Respuesta de Schedule disciplines:', response);
         return response;
       } catch (error) {
         console.error('Error en fetch de schedule disciplines:', error);
@@ -25,7 +25,7 @@ export const useScheduleDiscipline = () => {
   const createMutation = useMutation({
     mutationFn: (data: Partial<ScheduleDiscipline>) => scheduleDisciplineService.create(data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['schedule_discipline'] });
+      queryClient.invalidateQueries({ queryKey: ['schedules'] });
       toast.success('Schedule Disciplines creado exitosamente');
     },
     onError: (error: Error) => {
@@ -37,7 +37,7 @@ export const useScheduleDiscipline = () => {
     mutationFn: ({ id, data }: { id: number; data: Partial<ScheduleDiscipline> }) =>
       scheduleDisciplineService.update(id, data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['schedule_discipline'] });
+      queryClient.invalidateQueries({ queryKey: ['schedules'] });
       toast.success('Disciplines actualizado exitosamente');
     },
     onError: (error: Error) => {
@@ -48,7 +48,7 @@ export const useScheduleDiscipline = () => {
   const deleteMutation = useMutation({
     mutationFn: (id: number) => scheduleDisciplineService.delete(id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['schedule_discipline'] });
+      queryClient.invalidateQueries({ queryKey: ['schedules'] });
       toast.success('Schedule Disciplines eliminado exitosamente');
     },
     onError: (error: Error) => {
@@ -57,7 +57,7 @@ export const useScheduleDiscipline = () => {
   });
 
   return {
-    scheduleDisciplines: query.data?.schedule_discipline || [], 
+    schedules: query.data?.schedules || [], 
     isLoading: query.isLoading,
     isError: query.isError,
     error: query.error,

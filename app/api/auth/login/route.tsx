@@ -92,7 +92,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         },
         withCredentials: true,  // Asegúrate de enviar cookies en las solicitudes
       });
-      //await new Promise((resolve) => setTimeout(resolve, 1000))
+      await new Promise((resolve) => setTimeout(resolve, 1000))
       setUser(response.data);
       
       // Redirigir a la página deseada

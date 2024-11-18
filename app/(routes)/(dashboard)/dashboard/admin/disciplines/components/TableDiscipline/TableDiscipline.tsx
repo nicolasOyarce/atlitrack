@@ -37,6 +37,7 @@ export function TableDiscipline() {
   const router = useRouter();
 
   useEffect(() => {
+    console.log("Disciplines", disciplines);
     if (!isLoading && JSON.stringify(disciplines) !== JSON.stringify(data)) {
       setData(disciplines);
     }

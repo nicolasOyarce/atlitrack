@@ -24,12 +24,12 @@ export function ButtonAddScheduleDiscipline({schedule}: PageProps) {
         <Dialog open={openDialog} onOpenChange={setOpenDialog}>
             <DialogTrigger asChild>
                 <Button variant="outline" onClick={()=> setOpenDialog(true)}>
-                    Agregar nuevo horario {schedule}
+                    Agregar nuevo horario 
                     <PlusCircle className="ml-2" />
                 </Button>
             </DialogTrigger>
             <DialogContent>
-            <DialogTitle>Agregar un nuevo horario{schedule}</DialogTitle> {/* Título accesible */}
+            <DialogTitle>Agregar un nuevo horario</DialogTitle> {/* Título accesible */}
                 <DialogHeader>
                     <DialogDescription>
                         <ScheduleDisciplineForm 

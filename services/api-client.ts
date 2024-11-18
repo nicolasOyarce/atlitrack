@@ -21,6 +21,20 @@ export class ApiClient<T> {
         throw error;
       }
     }
+    async getAllWithParams(params:string): Promise<ApiResponse<T[]>> {
+      const endpoint = `${this.baseEndpoint}/get-all`; // Ruta para GET todos
+      console.log('ApiClient: Iniciando getAllWithParams() en', endpoint);
+  
+      try {
+        const response = await axiosInstance.get<ApiResponse<T[]>>(endpoint )
+          
+         // {         params,  // Aquí pasamos cualquier parámetro adicional como `schedule`        });
+        return response.data;
+      } catch (error: any) {
+        this.handleError(error);
+        throw error;
+      }
+    }
   
     async getById(id: string | number): Promise<ApiResponse<T>> {
       const endpoint = `${this.baseEndpoint}/${id}`; // Ruta específica para GET por ID

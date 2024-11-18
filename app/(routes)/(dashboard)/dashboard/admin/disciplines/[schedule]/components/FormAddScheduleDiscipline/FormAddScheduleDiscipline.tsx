@@ -6,6 +6,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
 import {
   Form,
   FormControl,
@@ -16,12 +17,28 @@ import {
 import { scheduleDisciplineFormSchema } from "./FormAddScheduleDiscipline.form";
 import { useScheduleDiscipline } from "@/hooks/useScheduleDiscipline";
 import GenericSelect from "@/components/ui/GenericSelect";
+import { DaysOptions } from "@/constants/selectOptions";
+import { TimeSelector } from "@/components/ui/TimeSelector";
 
-
+type ScheduleDiscipline = {
+  schedule_for_discipline_id: number;
+  discipline_id: string;
+  day_id: string;
+  hour_start_class: string;
+  hour_end_class: string;
+}
+type TimeValue = {
+  hour: string;
+  minute: string;
+};
 
 export function ScheduleDisciplineForm({ editingId, setEditingId, setOpenDialog, discipline_name }: { editingId: number | null, setEditingId: React.Dispatch<React.SetStateAction<number | null>>, setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>, discipline_name: string }) {
-  const { scheduleDisciplines, isLoading, createScheduleDisciplines, updateScheduleDisciplines } = useScheduleDiscipline();
   const decodedName = discipline_name ? decodeURIComponent(discipline_name as string) : "";
+  const { scheduleDisciplines, isLoading, createScheduleDisciplines, updateScheduleDisciplines } = useScheduleDiscipline(decodedName);
+  const [openHour, setOpenHour] = useState<TimeValue>({ hour: "", minute: "" });
+  const [closeHour, setCloseHour] = useState<TimeValue>({ hour: "", minute: "" });
+  const [selectedDay, setSelectedDay] = useState<string | null>(null);
+  //const decodedName = discipline_name ? decodeURIComponent(discipline_name as string) : "";
   const form = useForm<z.infer<typeof scheduleDisciplineFormSchema>>({
     resolver: zodResolver(scheduleDisciplineFormSchema),
     defaultValues: {
@@ -34,7 +51,7 @@ export function ScheduleDisciplineForm({ editingId, setEditingId, setOpenDialog,
 
   useEffect(() => {
     if (editingId) {
-        const schedule_discipline = scheduleDisciplines.find((d: Discipline) => d.discipline_id === editingId);
+        const schedule_discipline = scheduleDisciplines.find((s: ScheduleDiscipline) => s.schedule_for_discipline_id === editingId);
 
         if (schedule_discipline) {
             form.reset({
@@ -46,7 +63,7 @@ export function ScheduleDisciplineForm({ editingId, setEditingId, setOpenDialog,
         }
     } else {
         form.reset({
-          discipline_id: "",
+          discipline_id: decodedName,
           day_id: "",
           hour_start_class: "",
           hour_end_class: "",
@@ -54,7 +71,18 @@ export function ScheduleDisciplineForm({ editingId, setEditingId, setOpenDialog,
     }
   }, []);
 
-   
+  const formatTime = (time: { hour: string; minute: string }): string => {
+    return `${time.hour}:${time.minute}`;
+  };
+  const handleTimeOpenChange = (newValue: { hour: string; minute: string }) => {
+    setOpenHour(newValue);
+    form.setValue("hour_start_class", formatTime(newValue));
+  };
+    
+  const handleTimeCloseChange = (newValue: { hour: string; minute: string }) => {
+      setCloseHour(newValue);
+      form.setValue("hour_end_class", formatTime(newValue));
+    }; 
 
   const onSubmit = async (values: z.infer<typeof scheduleDisciplineFormSchema>) => {
       try {
@@ -93,14 +121,57 @@ export function ScheduleDisciplineForm({ editingId, setEditingId, setOpenDialog,
               </FormItem>
             )}
           />
+          <FormItem>
+            <FormLabel>Día</FormLabel>
+            <Controller
+              name="day_id"
+              control={form.control}
+              render={({ field }) => (
+                <FormControl>
+                  <select
+                    {...field}
+                    className="at-input"
+                    onChange={(e) => field.onChange(e.target.value)} // Actualiza el valor en el formulario
+                  >
+                    <option value="">Selecciona un día</option>
+                    {DaysOptions.map((option) => (
+                      <option key={option.value} value={option.label}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                </FormControl>
+              )}
+            />
+          </FormItem>
           <FormField
             control={form.control}
-            name="student_max_quantity"
+            name="hour_start_class"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Cantidad Max. Alumnos</FormLabel>
+                <FormLabel>Hora inicio clase</FormLabel>
                 <FormControl>
-                  <Input placeholder="20" {...field} />
+                  <TimeSelector
+                    name=""
+                    value={openHour}
+                    onChange={handleTimeOpenChange}
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="hour_end_class"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Hora fin clase</FormLabel>
+                <FormControl>
+                  <TimeSelector
+                    name=""
+                    value={closeHour}
+                    onChange={handleTimeCloseChange}
+                  />
                 </FormControl>
               </FormItem>
             )}
