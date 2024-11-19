@@ -1,6 +1,5 @@
 import React from 'react'
 import Image from 'next/image'
-import { AuthProvider } from '@/services/auth'
 
 export default function AuthLayout({children}: {children: React.ReactNode}) {
     return (

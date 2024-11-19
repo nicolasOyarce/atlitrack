@@ -416,3 +416,10 @@ export const DaysOptions = [
   { value: 6, label: "Sabado" },
   { value: 7, label: "Domingo" }
 ]
+
+export const StatusSubscriptionOptions = [
+  { value: "active", label: "Activa" },
+  { value: "inactive", label: "Inactiva" },
+  { value: "suspend", label: "Suspendida" },
+  { value: "soon_to_expire", label: "Pronto a vencer(5 días)" },
+]

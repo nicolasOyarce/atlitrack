@@ -1,5 +1,5 @@
 import { ButtonAddStudent } from "./components/ButtonAddStudent";
-import { TableDiscipline } from "./components/TableStudent/TableStudent";
+import { TableSubscription } from "./components/TableStudent/TableStudent";
 
 export default function DisciplinesPage() {
     return (
@@ -10,7 +10,7 @@ export default function DisciplinesPage() {
             </div>
             <div>
                 <div className="mt-20">
-                    <TableDiscipline />
+                    <TableSubscription />
                 </div>
             </div>
         </div>

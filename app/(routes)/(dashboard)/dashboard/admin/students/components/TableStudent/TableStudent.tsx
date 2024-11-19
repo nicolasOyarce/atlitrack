@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { DataTable } from '@/components/ui/DataTable';
 import { createColumnHelper, ColumnDef } from '@tanstack/react-table';
-import { useDiscipline } from '@/hooks/useDiscipline';
 import { Button } from "@/components/ui/button";
 import {
     Dialog,
@@ -13,43 +12,48 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import { PencilIcon, PlusCircle, Trash, Trash2} from "lucide-react";
+import { PencilIcon, RefreshCcw, Trash2} from "lucide-react";
 import { UUID } from 'crypto';
-import { DisciplineForm } from '../FormAddStudent';
+import { SubscriptionForm } from '../FormAddStudent';
+import { useSubscription } from '@/hooks/useSubscription';
 
-type Discipline = {
-  discipline_id:number;
-  discipline_name: string;
-  trainer_id: string;
-  student_max_quantity: number;
-};
+type Subscription = {
+  student_sportcenter_id: number;
+  sportcenter_id: string;
+  student_id: string;
+  subscription_date: string;
+  expiration_date: string;
+  status: string;
+  last_renewal_date: string;
+  plan_id: string;
+  };
 
-const columnHelper = createColumnHelper<Discipline>();
+const columnHelper = createColumnHelper<Subscription>();
 
-export function TableDiscipline() {
-  const { disciplines, isLoading, deleteDisciplines } = useDiscipline();
-  const [data, setData] = useState<Discipline[]>([]);
-  const [selectedData, setSelectedData] = useState<Discipline | null>(null);
+export function TableSubscription() {
+  const { students_sportcenter, isLoading, deleteSubscription } = useSubscription();
+  const [data, setData] = useState<Subscription[]>([]);
+  const [selectedData, setSelectedData] = useState<Subscription | null>(null);
   const [isEditFormOpen, setIsEditFormOpen] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [openDialog, setOpenDialog] = useState(false);
 
 
   useEffect(() => {
-    if (!isLoading && JSON.stringify(disciplines) !== JSON.stringify(data)) {
-      setData(disciplines);
+    if (!isLoading && JSON.stringify(students_sportcenter) !== JSON.stringify(data)) {
+      setData(students_sportcenter);
     }
-  }, [disciplines, isLoading]);
+  }, [students_sportcenter, isLoading]);
 
-  const onEdit = (discipline: Discipline) => {
-    setSelectedData(discipline); // Se almacenan los datos del centro deportivo a editar
-    setEditingId(discipline.discipline_id); // Actualizamos el ID de edición
+  const onEdit = (subscription: Subscription) => {
+    setSelectedData(subscription); // Se almacenan los datos del centro deportivo a editar
+    setEditingId(subscription.student_sportcenter_id); // Actualizamos el ID de edición
     setIsEditFormOpen(true); // Se abre el formulario de edición
   };
 
   const onDelete = (id: number) => {
-    if (confirm("¿Estás seguro de que deseas eliminar este entrenador?")) {
-      deleteDisciplines(id);  // Llama a la función de eliminación del hook
+    if (confirm("¿Estás seguro de que deseas eliminar este Alumno?")) {
+      deleteSubscription(id);  // Llama a la función de eliminación del hook
     }
   };
 
@@ -59,17 +63,33 @@ export function TableDiscipline() {
     setEditingId(null); // Limpiamos el ID de edición
   };
 
-  const columns: ColumnDef<Discipline, any>[] = [
-    columnHelper.accessor('discipline_name', {
-      header: 'Nombre',
+  const columns: ColumnDef<Subscription, any>[] = [
+    columnHelper.accessor('sportcenter_id', {
+      header: 'Centro deportivo',
       cell: (info) => info.getValue(),
     }),
-    columnHelper.accessor('trainer_id', {
-      header: 'Entrenador',
+    columnHelper.accessor('student_id', {
+      header: 'Alumno',
       cell: (info) => info.getValue(),
     }),
-    columnHelper.accessor('student_max_quantity', {
-      header: 'Max. cantidad Alumnos',
+    columnHelper.accessor('subscription_date', {
+      header: 'Fecha enrrolamiento',
+      cell: (info) => info.getValue(),
+    }),
+    columnHelper.accessor('expiration_date', {
+      header: 'Fecha expiracion del Plan',
+      cell: (info) => info.getValue(),
+    }),
+    columnHelper.accessor('last_renewal_date', {
+      header: 'Fecha ultima renovacion',
+      cell: (info) => info.getValue(),
+    }),
+    columnHelper.accessor('status', {
+      header: 'Estado',
+      cell: (info) => info.getValue(),
+    }),
+    columnHelper.accessor('plan_id', {
+      header: 'Plan',
       cell: (info) => info.getValue(),
     }),
     columnHelper.display({
@@ -78,7 +98,8 @@ export function TableDiscipline() {
       cell: (info) => (
         <div className="flex gap-2">
             <Button 
-              className='bg-green-700'
+            title="Haz clic para EDITAR la suscripción"
+              className='bg-green-600  hover:bg-green-700 transition-colors shadow-md'
               variant="outline" 
               onClick={()=> {
                 onEdit(info.row.original);
@@ -87,9 +108,20 @@ export function TableDiscipline() {
               >
               <PencilIcon className="" />
             </Button>
-
+            <Button 
+              title="Haz clic para RENOVAR la suscripción"
+              className='bg-yellow-500  hover:bg-yellow-600 transition-colors shadow-md'
+              variant="outline" 
+              onClick={()=> {
+                onEdit(info.row.original);
+                ;
+              }}
+              >
+              <RefreshCcw className="" />
+            </Button>
           <Button
-            onClick={() => onDelete(info.row.original.discipline_id)} // Acción de eliminación
+          title="Haz clic para ELIMINAR la suscripción"
+            onClick={() => onDelete(info.row.original.student_sportcenter_id)} // Acción de eliminación
             className="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors shadow-md"
           >
             <Trash2 />
@@ -103,7 +135,7 @@ export function TableDiscipline() {
 
   return (
     <div>
-      <DataTable<Discipline>
+      <DataTable<Subscription>
         data={data}
         columns={columns}
         isLoading={isLoading}
@@ -113,10 +145,10 @@ export function TableDiscipline() {
       {isEditFormOpen && selectedData && (
         <Dialog open={openDialog} onOpenChange={setOpenDialog}>
         <DialogContent>
-        <DialogTitle>Actualizar Disciplina</DialogTitle> {/* Título accesible */}
+        <DialogTitle>Actualizar Subscripcion</DialogTitle> {/* Título accesible */}
             <DialogHeader>
                 <DialogDescription>
-                    <DisciplineForm 
+                    <SubscriptionForm 
                     editingId={editingId}
                     setEditingId={setEditingId}
                     setOpenDialog={setOpenDialog}/>

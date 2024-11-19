@@ -66,7 +66,6 @@ export function PlanForm({ editingId, setEditingId, setOpenDialog }: { editingId
               price: plan.price.toString(),
               is_active: true
         };
-            console.log('Setting form data:', formData);
             form.reset(formData);
       }
         

@@ -19,6 +19,7 @@ import GenericSelect from "@/components/ui/GenericSelect";
 import { useSportCenters } from "@/hooks/useSportCenters";
 import { usePlan } from "@/hooks/usePlan";
 import GenericDateInput from "@/components/ui/GenericDateInput";
+import { StatusSubscriptionOptions } from "@/constants/selectOptions";
 
 type Subscription = {
   student_sportcenter_id: number;
@@ -55,7 +56,13 @@ export function SubscriptionForm({ editingId, setEditingId, setOpenDialog }: { e
 
         if (subscription) {
             form.reset({
-
+              sportcenter_id: subscription.sportcenter_id,
+              student_id: subscription.student_id,
+              subscription_date: subscription.subscription_date,
+              expiration_date: subscription.expiration_date,
+              status: subscription.status,
+              last_renewal_date: subscription.last_renewal_date,
+              plan_id: subscription.plan_id
             });
         }
     } else {
@@ -97,12 +104,24 @@ export function SubscriptionForm({ editingId, setEditingId, setOpenDialog }: { e
         <div className="grid gap-6 lg:grid-cols-2">
           <GenericSelect
             data={sportCenters}
-            valueKey="id"
-            valueKey2="sport_center_name"
+            valueKey="sport_center_id"
+            valueKey2="mail"
             labelKey="sport_center_name"
             name="sportcenter_id"
             label="Centro deportivo"
-          />%
+          />
+          <FormField
+            control={form.control}
+            name="student_id"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Correo electronico Alumno</FormLabel>
+                <FormControl>
+                  <Input placeholder="alumno@email.com" {...field} />
+                </FormControl>
+              </FormItem>
+            )}
+          />
           <GenericSelect
             data={plans}
             valueKey="plan_id"
@@ -117,7 +136,41 @@ export function SubscriptionForm({ editingId, setEditingId, setOpenDialog }: { e
           control={form.control}
           required
         />
-        
+        <GenericDateInput
+          name="expiration_date"
+          label="Fecha de Expiracion"
+          control={form.control}
+          required
+        />
+        <GenericDateInput
+          name="last_renewal_date"
+          label="Fecha ultima renovación"
+          control={form.control}
+          required
+        />
+        <FormItem>
+            <FormLabel>Estado</FormLabel>
+            <Controller
+              name="status"
+              control={form.control}
+              render={({ field }) => (
+                <FormControl>
+                  <select
+                    {...field}
+                    className="at-input"
+                    onChange={(e) => field.onChange(e.target.value)} // Actualiza el valor en el formulario
+                  >
+                    <option value="">Selecciona un Estado</option>
+                    {StatusSubscriptionOptions.map((option) => (
+                      <option key={option.value} value={option.label}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                </FormControl>
+              )}
+            />
+        </FormItem>
          
         </div>
         <div className="space-x-4">

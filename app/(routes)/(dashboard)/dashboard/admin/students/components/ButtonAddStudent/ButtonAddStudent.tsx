@@ -21,12 +21,12 @@ export function ButtonAddStudent() {
         <Dialog open={openDialog} onOpenChange={setOpenDialog}>
             <DialogTrigger asChild>
                 <Button variant="outline" onClick={()=> setOpenDialog(true)}>
-                    Agregar nueva Disciplina
+                    Agregar nuevo Alumno
                     <PlusCircle className="ml-2" />
                 </Button>
             </DialogTrigger>
             <DialogContent>
-            <DialogTitle>Agregar una Disciplina</DialogTitle> {/* Título accesible */}
+            <DialogTitle>Agregar un Alumno</DialogTitle> 
                 <DialogHeader>
                     <DialogDescription>
                         <SubscriptionForm 

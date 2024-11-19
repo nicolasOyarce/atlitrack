@@ -5,9 +5,9 @@ export const SubscriptionSchema = z.object({
     sportcenter_id: z.string().min(1).max(100).optional(),
     student_id: z.string().min(1).max(100).optional(),
     subscription_date: z.string().min(1).max(100),
-    expiration_date: z.string().min(1).max(100),
-    status: z.string().min(1).max(100),
-    last_renewal_date: z.string().min(1).max(100),
+    expiration_date: z.string().min(1).max(100).optional(),
+    status: z.string().min(1).max(100).optional(),
+    last_renewal_date: z.string().min(1).max(100).optional(),
     plan_id: z.string().min(1).max(100),
   
 });

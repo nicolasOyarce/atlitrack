@@ -6,7 +6,6 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
 import {
   Form,
   FormControl,
@@ -16,7 +15,6 @@ import {
 } from "@/components/ui/form";
 import { scheduleDisciplineFormSchema } from "./FormAddScheduleDiscipline.form";
 import { useScheduleDiscipline } from "@/hooks/useScheduleDiscipline";
-import GenericSelect from "@/components/ui/GenericSelect";
 import { DaysOptions } from "@/constants/selectOptions";
 import { TimeSelector } from "@/components/ui/TimeSelector";
 
@@ -38,7 +36,6 @@ export function ScheduleDisciplineForm({ editingId, setEditingId, setOpenDialog,
   const [openHour, setOpenHour] = useState<TimeValue>({ hour: "", minute: "" });
   const [closeHour, setCloseHour] = useState<TimeValue>({ hour: "", minute: "" });
   const [selectedDay, setSelectedDay] = useState<string | null>(null);
-  //const decodedName = discipline_name ? decodeURIComponent(discipline_name as string) : "";
   const form = useForm<z.infer<typeof scheduleDisciplineFormSchema>>({
     resolver: zodResolver(scheduleDisciplineFormSchema),
     defaultValues: {

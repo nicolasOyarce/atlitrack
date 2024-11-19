@@ -1,7 +1,7 @@
 import { ApiClient } from './api-client';
 
 export interface SportCenter {
-    id:number;
+    sport_center_id:number;
     sport_center_name: string;
     city_id: number;
     comuna_id: number;

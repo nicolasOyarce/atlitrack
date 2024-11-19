@@ -126,8 +126,6 @@ export function SportCenterForm({ editingId, setEditingId, setOpenDialog }: { ed
     const onSubmit = async (values: z.infer<typeof sportCenterFormSchema>) => {
         try {
         if (editingId) {
-            console.log("id::",editingId)
-            console.log("data::", values)
             await updateSportCenter({ id: editingId, data: values });
             
             setEditingId(null);
