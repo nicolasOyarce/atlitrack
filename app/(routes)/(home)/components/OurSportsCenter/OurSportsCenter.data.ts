@@ -1,53 +1,65 @@
-export const categoryOurFleet = [
+export const categoryOurSportsCenter = [
     {
-        name: "Premium",
+        name: "Boxeo",
         active: false,
     },
     {
-        name: "Coupe",
+        name: "Gymnasios",
         active: true,
     },
     {
-        name: "Sportcar",
+        name: "Danza",
         active: false,
     },
     {
-        name: "Hypercar",
+        name: "Karate",
         active: false,
     },
     {
-        name: "Limusines",
+        name: "Running",
         active: true,
     },
     {
-        name: "Classic",
+        name: "Futbol",
         active: false,
     },
 ];
 
-export const dataFirstBlockOurFleet = [
+export const dataFirstBlockOurSportsCenter = [
     {
-        url: "car-1.jpg",
+        url: "boxeo1.jpg",
+        name: "Boxeo",
+        professor: "Juan Perez",
+        time: "Lunes a Viernes 6:00 - 9:00",
     },
     {
-        url: "car-2.jpg",
+        url: "boxeo2.jpg",
+        name: "Boxeo",
+        professor: "Juan Perez",
+        time: "Lunes a Viernes 6:00 - 9:00",
     },
     {
-        url: "car-3.jpg",
+        url: "futbol.jpg",
+        name: "Futbol",
+        professor: "Juan Perez",
+        time: "Lunes a Viernes 6:00 - 9:00",
+    },
+    {
+        url: "basquet.jpg",
+        name: "Basquet",
+        professor: "Juan Perez",
+        time: "Lunes a Viernes 6:00 - 9:00",
+    },
+    {
+        url: "gym.jpg",
+        name: "Gym",
+        professor: "Juan Perez",
+        time: "Lunes a Viernes 6:00 - 9:00",
+    },
+    {
+        url: "pingpong.jpg",
+        name: "Ping Pong",
+        professor: "Juan Perez",
+        time: "Lunes a Viernes 6:00 - 9:00",
     },
 ];
-
-export const dataSecondBlockOurFleet = [
-    {
-        url: "car-4.jpg",
-    },
-    {
-        url: "car-5.jpg",
-    },
-    {
-        url: "car-6.jpg",
-    },
-    {
-        url: "car-7.jpg",
-    },
-]; 

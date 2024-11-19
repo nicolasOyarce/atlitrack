@@ -17,7 +17,7 @@ export function Navbar() {
         <div className="flex items-center justify-center gap-x-7">
           <Link href="/cars">Inicio</Link>
           <Link href="/dashboard">Planes</Link>
-          <Link href="/dashboard">Contacto</Link>
+          <Link href="/dashboard">Centros Deportivos</Link>
           <Link href="/dashboard">Perfil</Link>
             <Link href="/sign-in" className="flex gap-x-3">
               <Button>

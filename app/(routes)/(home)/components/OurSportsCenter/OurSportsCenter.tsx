@@ -1,9 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { MoveRight } from "lucide-react";
 import {
-    categoryOurFleet,
-    dataFirstBlockOurFleet,
-    dataSecondBlockOurFleet,
+    categoryOurSportsCenter,
+    dataFirstBlockOurSportsCenter,
 } from "./OurSportsCenter.data";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
@@ -14,53 +13,51 @@ export function OurSportsCenter() {
         <div className="max-w-6xl mx-auto text-center py-12 lg:py-40 p-6">
             <h3 className="text-2xl lg:text-6xl font-bold">Todos los Centros Deportivos</h3>
             <p className="text-lg mt-2 lg:mt-5 lg:text-xl text-center w-full mx-auto max-w-2xl mb-5 lg:mb-10">
-                Dont deny yourself pleasure of driving the best premium cars from around
-                the world here and now the world
+                Conoce todos los centros deportivos que tenemos para ti en todo el país.
             </p>
             <div className="grid grid-cols-2 lg:grid-cols-6 gap-4 items-center justify-center mb-5 max-w-2xl mx-auto">
-                {categoryOurFleet.map(({ name, active }) => (
+                {categoryOurSportsCenter.map(({ name, active }) => (
                     <div
                         key={name}
                         className={cn(
                             "rounded-xl py-2 px-3",
-                            active ? "bg-black text-white" : "bg-slate-100"
+                            active ? "bg-gray-900 text-white" : "bg-slate-500"
                         )}
                     >
                         {name}
                     </div>
                 ))}
             </div>
-            <div className="mb-10">
-                <div className="grid grid-cols-3 gap-x-6 mb-6">
-                    {dataFirstBlockOurFleet.map(({ url }) => (
-                        <div key={url}>
-                            <Image
-                                src={`/images/cars/${url}`}
-                                alt="Car"
-                                width={400}
-                                height={300}
-                                className="rounded-xl"
-                            />
-                        </div>
-                    ))}
-                </div>
-                <div className="grid grid-cols-4 gap-x-6 max-w-5xl mx-auto">
-                    {dataSecondBlockOurFleet.map(({ url }) => (
-                        <div key={url}>
-                            <Image
-                                src={`/images/cars/${url}`}
-                                alt="Car"
-                                width={400}
-                                height={300}
-                                className="rounded-xl aspect-[3/2]"
-                            />
+            <div className="mb-10 pt-5">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {dataFirstBlockOurSportsCenter.map(({ url, name, professor, time }) => (
+                        <div key={url} className="flex flex-col">
+                            <div className="relative w-full aspect-[4/3] overflow-hidden rounded-xl mb-4">
+                                <Image
+                                    src={`/images/sportsCenters/${url}`}
+                                    alt={`Centro deportivo ${name}`}
+                                    fill
+                                    className="object-cover"
+                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                />
+                            </div>
+                            <div className="flex flex-col space-y-2 px-2">
+                                <p className="text-green-600">Profesor {professor}</p>
+                                <h3 className="font-bold text-lg">Centro deportivo {name}</h3>
+                                <p className="text-gray-600">Horario: {time}</p>
+                            </div>
+                            <div className="flex justify-center mt-4 px-2">
+                                <Button className="bg-green-600 hover:bg-green-700 text-white">
+                                    Ver más
+                                </Button>
+                            </div>
                         </div>
                     ))}
                 </div>
             </div>
-            <Link href="/cars">
-                <Button className="rounded-xl p-6 text-lg mt-5" variant="outline">
-                    Show all models
+            <Link href="/sportsCenters">
+                <Button className="rounded-xl p-6 text-lg mt-5 text-green-600 bg-gray-900" variant="outline">
+                    Ver todos los centros deportivos
                     <MoveRight className="ml-2" />
                 </Button>
             </Link>
