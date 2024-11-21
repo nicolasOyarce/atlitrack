@@ -1,6 +1,9 @@
 import { Navbar } from "@/components/Navbar";
 import { FirtsBlock } from "./components/FirtsBlock";
 import { SliderBrands } from "./components/SliderBrands";
+import { OurSportsCenter } from "./components/OurSportsCenter/OurSportsCenter";
+import { ContactForm } from "@/components/ContactForm";
+import { Footer } from "@/components/Footer";
 
 export default function Home() {
   return (
@@ -8,6 +11,9 @@ export default function Home() {
       <Navbar />
       <FirtsBlock />
       <SliderBrands />
+      <OurSportsCenter />
+      <ContactForm />
+      <Footer />
     </div>
   );
 }
