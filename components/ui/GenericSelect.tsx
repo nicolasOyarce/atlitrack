@@ -33,6 +33,7 @@ const GenericSelect = <T extends {}>({
           <FormLabel>{label}</FormLabel>
           <FormControl>
             <Select
+              value={field.value}
               onValueChange={field.onChange}
               defaultValue={field.value}
             >

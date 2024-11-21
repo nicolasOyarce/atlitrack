@@ -91,7 +91,9 @@ export function TablePlan() {
     }),
     columnHelper.accessor('is_active', {
       header: 'Estado',
-      cell: (info) => info.getValue(),
+      cell: (info) => {
+        const isActive=info.getValue();
+        return <span>{isActive ? 'Activo' : 'Inactivo'}</span>;}
     }),
     columnHelper.display({
       id: 'actions',

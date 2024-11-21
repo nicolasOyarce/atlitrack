@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { z } from "zod";
+import { boolean, z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -34,8 +34,10 @@ type Plan = {
 export function PlanForm({ editingId, setEditingId, setOpenDialog }: { editingId: number | null, setEditingId: React.Dispatch<React.SetStateAction<number | null>>, setOpenDialog: React.Dispatch<React.SetStateAction<boolean>> }) {
   const { plans, isLoading, createPlans, updatePlans, deletePlans } = usePlan();
   const { disciplines } = useDiscipline();
-  const [selectedDiscipline, setSelectedDiscipline] = useState<string>('');
-  
+  const [isActive, setIsActive] = useState<boolean>(true);
+  const toggleActive = () => {
+    setIsActive(prevState => !prevState); // Alterna el valor entre true/false
+  };
   const form = useForm<z.infer<typeof planFormSchema>>({
     resolver: zodResolver(planFormSchema),
     defaultValues: {
@@ -45,7 +47,7 @@ export function PlanForm({ editingId, setEditingId, setOpenDialog }: { editingId
       classes_quantity: "",
       duration: "",
       price: "",
-      is_active: true
+      is_active: true,
     },
   });
  
@@ -180,10 +182,20 @@ export function PlanForm({ editingId, setEditingId, setOpenDialog }: { editingId
             control={form.control}
             name="is_active"
             render={({ field }) => (
-              <FormItem>
-                <FormLabel>Activo</FormLabel>
+              <FormItem className="flex flex-col space-y-2">
+                <FormLabel>Estado</FormLabel>
                 <FormControl>
-                  True
+                  <label className="switch">
+                    <Input 
+                      type="checkbox"
+                      checked={isActive}
+                      onChange={() => {
+                        toggleActive();
+                        field.onChange(isActive); // Actualiza el valor en el formulario
+                      }}
+                    />
+                    <span className="slider"></span>
+                  </label>
                 </FormControl>
               </FormItem>
             )}

@@ -32,11 +32,10 @@ type Subscription = {
   plan_id: string;
   };
 
-export function SubscriptionForm({ editingId, setEditingId, setOpenDialog }: { editingId: number | null, setEditingId: React.Dispatch<React.SetStateAction<number | null>>, setOpenDialog: React.Dispatch<React.SetStateAction<boolean>> }) {
+export function SubscriptionForm({ editingId, setEditingId, setOpenDialog,isRenewalMode, }: { editingId: number | null, setEditingId: React.Dispatch<React.SetStateAction<number | null>>, setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>; isRenewalMode: boolean;}) {
   const { students_sportcenter, isLoading, createSubscription, updateSubscription } = useSubscription();
   const { sportCenters} = useSportCenters();
   const { plans } = usePlan();
-
   const form = useForm<z.infer<typeof subscriptionFormSchema>>({
     resolver: zodResolver(subscriptionFormSchema),
     defaultValues: {
@@ -82,7 +81,10 @@ export function SubscriptionForm({ editingId, setEditingId, setOpenDialog }: { e
 
   const onSubmit = async (values: z.infer<typeof subscriptionFormSchema>) => {
       try {
-      if (editingId) {
+        if (isRenewalMode){
+          await updateSubscription({ id: editingId, data:{last_renewal_date: values.last_renewal_date, plan_id : values.plan_id }});
+
+        } else if (editingId) {
           await updateSubscription({ id: editingId, data: values });
           setEditingId(null);
       } else {
@@ -102,53 +104,49 @@ export function SubscriptionForm({ editingId, setEditingId, setOpenDialog }: { e
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <div className="grid gap-6 lg:grid-cols-2">
-          <GenericSelect
-            data={sportCenters}
-            valueKey="sport_center_id"
-            valueKey2="mail"
-            labelKey="sport_center_name"
-            name="sportcenter_id"
-            label="Centro deportivo"
-          />
-          <FormField
-            control={form.control}
-            name="student_id"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Correo electronico Alumno</FormLabel>
-                <FormControl>
-                  <Input placeholder="alumno@email.com" {...field} />
-                </FormControl>
-              </FormItem>
-            )}
-          />
-          <GenericSelect
-            data={plans}
-            valueKey="plan_id"
-            valueKey2="plan_name"
-            labelKey="plan_name"
-            name="plan_id"
-            label="Plan"
-          />
-          <GenericDateInput
-          name="subscription_date"
-          label="Fecha de Enrrolamiento"
-          control={form.control}
-          required
-        />
-        <GenericDateInput
-          name="expiration_date"
-          label="Fecha de Expiracion"
-          control={form.control}
-          required
-        />
-        <GenericDateInput
-          name="last_renewal_date"
-          label="Fecha ultima renovación"
-          control={form.control}
-          required
-        />
-        <FormItem>
+          {!isRenewalMode && (
+            <>
+                <GenericSelect
+                  data={sportCenters}
+                  valueKey="sport_center_id"
+                  valueKey2="mail"
+                  labelKey="sport_center_name"
+                  name="sportcenter_id"
+                  label="Centro deportivo"
+                />
+                <FormField
+                  control={form.control}
+                  name="student_id"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Correo electronico Alumno</FormLabel>
+                      <FormControl>
+                        <Input placeholder="alumno@email.com" {...field} />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+                <GenericSelect
+                  data={plans}
+                  valueKey="plan_id"
+                  valueKey2="plan_name"
+                  labelKey="plan_name"
+                  name="plan_id"
+                  label="Plan"
+                />
+                <GenericDateInput
+                name="subscription_date"
+                label="Fecha de Enrrolamiento"
+                control={form.control}
+                required
+              />
+              <GenericDateInput
+                name="expiration_date"
+                label="Fecha de Expiracion"
+                control={form.control}
+                required
+              />
+            <FormItem>
             <FormLabel>Estado</FormLabel>
             <Controller
               name="status"
@@ -170,12 +168,29 @@ export function SubscriptionForm({ editingId, setEditingId, setOpenDialog }: { e
                 </FormControl>
               )}
             />
-        </FormItem>
-         
+            </FormItem>
+            <GenericDateInput
+          name="last_renewal_date"
+          label="Fecha ultima renovación"
+          control={form.control}
+          required
+        />
+            </>
+          )}
+          
+        {isRenewalMode && (
+          <GenericDateInput
+          name="last_renewal_date"
+          label="Fecha ultima renovación"
+          control={form.control}
+          required
+        />
+        )}
+                 
         </div>
         <div className="space-x-4">
           <Button type="submit" className="w-full lg:w-auto">
-            {editingId ? "Actualizar Disciplina" : "Crear Disciplina"}
+            {editingId ? (isRenewalMode ? "Renovar" : "Actualizar Subscripción") : "Crear Subscripción"}          
           </Button>
         </div>
       </form>

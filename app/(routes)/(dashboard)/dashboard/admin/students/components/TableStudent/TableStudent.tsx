@@ -37,8 +37,9 @@ export function TableSubscription() {
   const [selectedData, setSelectedData] = useState<Subscription | null>(null);
   const [isEditFormOpen, setIsEditFormOpen] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
+  const [renowalId, setRenowalId] = useState<number | null>(null);
   const [openDialog, setOpenDialog] = useState(false);
-
+  const [isRenewalMode, setIsRenewalMode] = useState(false);
 
   useEffect(() => {
     if (!isLoading && JSON.stringify(students_sportcenter) !== JSON.stringify(data)) {
@@ -46,9 +47,16 @@ export function TableSubscription() {
     }
   }, [students_sportcenter, isLoading]);
 
-  const onEdit = (subscription: Subscription) => {
+  const onEdit = (subscription: Subscription, isRenewal: boolean = false) => {
+    setSelectedData(subscription); // Establece los datos seleccionados
+    setEditingId(subscription.student_sportcenter_id); // Establece el ID para la edición
+    setIsRenewalMode(isRenewal); // Activa el modo renovación si es necesario
+    setIsEditFormOpen(true); // Se abre el formulario de edición
+  };
+
+  const onRenewal = (subscription: Subscription) => {
     setSelectedData(subscription); // Se almacenan los datos del centro deportivo a editar
-    setEditingId(subscription.student_sportcenter_id); // Actualizamos el ID de edición
+    setRenowalId(subscription.student_sportcenter_id); // Actualizamos el ID de edición
     setIsEditFormOpen(true); // Se abre el formulario de edición
   };
 
@@ -116,7 +124,8 @@ export function TableSubscription() {
               className='bg-yellow-500  hover:bg-yellow-600 transition-colors shadow-md'
               variant="outline" 
               onClick={()=> {
-                onEdit(info.row.original);
+                onEdit(info.row.original, true);
+                setOpenDialog(true);
                 ;
               }}
               >
@@ -148,13 +157,17 @@ export function TableSubscription() {
       {isEditFormOpen && selectedData && (
         <Dialog open={openDialog} onOpenChange={setOpenDialog}>
         <DialogContent>
-        <DialogTitle>Actualizar Subscripcion</DialogTitle> {/* Título accesible */}
+        <DialogTitle>
+          {isRenewalMode ? "Renovar Subscripción" : "Actualizar Subscripción"}
+          </DialogTitle> {/* Título accesible */}
             <DialogHeader>
                 <DialogDescription>
                     <SubscriptionForm 
                     editingId={editingId}
                     setEditingId={setEditingId}
-                    setOpenDialog={setOpenDialog}/>
+                    setOpenDialog={setOpenDialog}
+                    isRenewalMode={isRenewalMode}
+                    />
                 </DialogDescription>    
             </DialogHeader>
         </DialogContent>
