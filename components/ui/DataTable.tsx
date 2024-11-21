@@ -73,7 +73,18 @@ export function DataTable<T extends object>({
       },
     },
   })
-
+  const getRowClassForStatus = (status: string) => {
+    switch (status) {
+      case 'Activa':
+        return 'bg-green-100 text-green-800';
+      case 'Pronto a vencer(5 días)':
+        return 'bg-yellow-100 text-yellow-800';
+      case 'Inactiva':
+        return 'bg-red-100 text-red-800';
+      default:
+        return '';
+    }
+  };
   if (isLoading) {
     return <div className="flex justify-center p-4">Cargando...</div>
   }
@@ -110,27 +121,29 @@ export function DataTable<T extends object>({
                 </td>
               </tr>
             ) : (
-              table.getRowModel().rows.map((row) => (
-                <tr
-                  key={row.id}
-                  className={`border-b border-gray-200 ${
-                    onRowClick ? 'cursor-pointer hover:bg-gray-50' : ''
-                  }`}
-                  onClick={() => onRowClick?.(row.original)}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <td
-                      key={cell.id}
-                      className="px-4 py-3 text-sm text-gray-900"
-                    >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </td>
-                  ))}
-                </tr>
-              ))
+              table.getRowModel().rows.map((row) => {
+                // Obtener el valor del estado de la fila actual (suponiendo que "status" está presente)
+                const status = row.original.status;
+                
+                // Aquí se aplica la clase del estado de la fila solo si el estado existe
+                const rowClass = getRowClassForStatus(status);
+
+                return (
+                  <tr
+                    key={row.id}
+                    className={`border-b border-gray-200 ${rowClass} ${
+                      onRowClick ? 'cursor-pointer hover:bg-gray-50' : ''
+                    }`}
+                    onClick={() => onRowClick?.(row.original)}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <td key={cell.id} className="px-4 py-3 text-sm text-gray-900">
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </td>
+                    ))}
+                  </tr>
+                )
+              })
             )}
           </tbody>
         </table>

@@ -16,6 +16,7 @@ import { PencilIcon, RefreshCcw, Trash2} from "lucide-react";
 import { UUID } from 'crypto';
 import { SubscriptionForm } from '../FormAddStudent';
 import { useSubscription } from '@/hooks/useSubscription';
+import { formatDate } from '@/utils/utils';
 
 type Subscription = {
   student_sportcenter_id: number;
@@ -76,15 +77,15 @@ export function TableSubscription() {
     }),
     columnHelper.accessor('subscription_date', {
       header: 'Fecha enrrolamiento',
-      cell: (info) => info.getValue(),
+      cell: (info) => formatDate(info.getValue()),
     }),
     columnHelper.accessor('expiration_date', {
       header: 'Fecha expiracion del Plan',
-      cell: (info) => info.getValue(),
+      cell: (info) => formatDate(info.getValue()),
     }),
     columnHelper.accessor('last_renewal_date', {
       header: 'Fecha ultima renovacion',
-      cell: (info) => info.getValue(),
+      cell: (info) => formatDate(info.getValue()),
     }),
     columnHelper.accessor('status', {
       header: 'Estado',

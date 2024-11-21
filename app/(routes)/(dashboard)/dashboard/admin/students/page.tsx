@@ -1,7 +1,7 @@
 import { ButtonAddStudent } from "./components/ButtonAddStudent";
 import { TableSubscription } from "./components/TableStudent/TableStudent";
 
-export default function DisciplinesPage() {
+export default function StudentsPage() {
     return (
         <div>
             <div className="flex justify-between">
