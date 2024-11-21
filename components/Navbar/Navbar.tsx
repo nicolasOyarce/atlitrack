@@ -15,16 +15,22 @@ export function Navbar() {
         </Link>
 
         <div className="flex items-center justify-center gap-x-7">
-          <Link href="/cars">Inicio</Link>
-          <Link href="/dashboard">Planes</Link>
-          <Link href="/dashboard">Centros Deportivos</Link>
-          <Link href="/dashboard">Perfil</Link>
-            <Link href="/sign-in" className="flex gap-x-3">
-              <Button>
-                Iniciar sesión
-                <User className="ml-2 w-4 h-4" />
-              </Button>
-            </Link>
+          <Link href="/#home-first" className="font-semibold">Inicio</Link>
+          <Link href="/dashboard" className="font-semibold">Planes</Link>
+          <Link href="/#home-sportcenters" className="font-semibold">Centros Deportivos</Link>
+          <Link href="/#home-contact" className="font-semibold">Contactanos</Link>
+          <Link href="/sign-in" className="flex gap-x-3">
+            <Button variant={"at"}>
+              Iniciar sesión
+              <User className="ml-2 w-4 h-4" />
+            </Button>
+          </Link>
+          <Link href="/sign-up" className="flex gap-x-3">
+            <Button variant={"at"}>
+              Registrarse
+              <User className="ml-2 w-4 h-4" />
+            </Button>
+          </Link>
         </div>
       </div>
     </div>

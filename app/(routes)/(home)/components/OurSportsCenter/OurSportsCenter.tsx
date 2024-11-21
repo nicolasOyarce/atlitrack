@@ -10,7 +10,7 @@ import Link from "next/link";
 
 export function OurSportsCenter() {
     return (
-        <div className="max-w-6xl mx-auto text-center py-12 lg:py-40 p-6">
+        <div className="max-w-6xl mx-auto text-center py-12 lg:py-40 p-6" id="home-sportcenters">
             <h3 className="text-2xl lg:text-6xl font-bold">Todos los Centros Deportivos</h3>
             <p className="text-lg mt-2 lg:mt-5 lg:text-xl text-center w-full mx-auto max-w-2xl mb-5 lg:mb-10">
                 Conoce todos los centros deportivos que tenemos para ti en todo el país.

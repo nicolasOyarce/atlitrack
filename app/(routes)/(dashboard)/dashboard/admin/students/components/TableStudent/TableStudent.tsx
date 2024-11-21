@@ -31,7 +31,7 @@ type Subscription = {
 const columnHelper = createColumnHelper<Subscription>();
 
 export function TableSubscription() {
-  const { students_sportcenter, isLoading, deleteSubscription } = useSubscription();
+  const { students_sportcenter, isLoading, deleteSubscription, updateSubscription } = useSubscription();
   const [data, setData] = useState<Subscription[]>([]);
   const [selectedData, setSelectedData] = useState<Subscription | null>(null);
   const [isEditFormOpen, setIsEditFormOpen] = useState(false);
@@ -52,10 +52,12 @@ export function TableSubscription() {
   };
 
   const onDelete = (id: number) => {
-    if (confirm("¿Estás seguro de que deseas eliminar este Alumno?")) {
+    if (confirm("¿Estás seguro de que deseas ELIMINAR este Alumno?")) {
       deleteSubscription(id);  // Llama a la función de eliminación del hook
     }
   };
+
+
 
   const handleCloseForm = () => {
     setIsEditFormOpen(false);

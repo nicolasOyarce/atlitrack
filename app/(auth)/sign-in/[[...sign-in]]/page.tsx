@@ -4,6 +4,7 @@ import { useAuth } from "@/app/api/auth/login/route"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 
 export default function LoginPage() {
   const { login, isLoading } = useAuth()
@@ -30,9 +31,14 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center">
-      <form onSubmit={handleSubmit} className="space-y-4 w-full max-w-md p-8">
-        <Input
+    <div className="flex items-center justify-center min-h-[90vh]">
+      <form onSubmit={handleSubmit} className="flex-1 space-y-4 w-full max-w-md p-8">
+        <div>
+          <Label htmlFor="" className="text-4xl text-slate-500 font-bold pl-2">Ingresa aquí!</Label>
+        </div>
+        <div className="mt-6">
+          <Label className="text-xl p-2 text-slate-500">Correo eléctronico</Label>
+          <Input
           type="email"
           placeholder="Email"
           value={formData.username}
@@ -41,18 +47,26 @@ export default function LoginPage() {
           }
           disabled={isLoading}
         />
-        <Input
-          type="password"
-          placeholder="Contraseña"
-          value={formData.password}
-          onChange={(e) => 
-            setFormData(prev => ({ ...prev, password: e.target.value }))
-          }
-          disabled={isLoading}
-        />
-        <Button type="submit" className="w-full" disabled={isLoading}>
+        </div>
+        <div className="mt-2">
+          <Label className="p-2 text-xl text-slate-500">Contraseña</Label>
+          <Input
+            type="password"
+            placeholder="Contraseña"
+            value={formData.password}
+            onChange={(e) => 
+              setFormData(prev => ({ ...prev, password: e.target.value }))
+            }
+            disabled={isLoading}
+          /> 
+        </div>
+        
+        <div className="">
+          <Button type="submit" className="w-full text-lg p-8 font-semibold" disabled={isLoading}>
           {isLoading ? "Iniciando sesión..." : "Iniciar sesión"}
         </Button>
+        </div>
+        
       </form>
     </div>
   )

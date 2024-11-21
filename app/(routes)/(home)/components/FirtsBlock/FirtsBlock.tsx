@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export function FirtsBlock() {
     return (
-        <div className="grid lg:grid-cols-2 lg:px-10 lg:py-24 items-center ">
+        <div className="grid lg:grid-cols-2 lg:px-10 lg:py-24 items-center " id="home-first">
             <Reveal className="p-6 lg:pl-40" position="bottom">
                 <h1 className="text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold">
                     <span className="block text-green-600">AtliTrack </span>
