@@ -53,7 +53,7 @@ export function TablePlan() {
   };
 
   const onDelete = (id: number) => {
-    if (confirm("¿Estás seguro de que deseas eliminar este entrenador?")) {
+    if (confirm("¿Estás seguro de que deseas eliminar este Plan?")) {
       deletePlans(id);  // Llama a la función de eliminación del hook
     }
   };

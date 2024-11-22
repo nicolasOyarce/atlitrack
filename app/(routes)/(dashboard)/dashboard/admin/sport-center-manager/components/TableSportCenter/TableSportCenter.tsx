@@ -14,7 +14,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import { PencilIcon, PlusCircle } from "lucide-react";
+import { PencilIcon, Trash2 } from "lucide-react";
 
 interface SportCenter {
   sport_center_id: number;
@@ -112,14 +112,14 @@ export function TableSportCenter() {
                 setOpenDialog(true);
               }}
               >
-                <PencilIcon className="ml-2" />
+              <PencilIcon className="" />
             </Button>
 
           <button
             onClick={() => onDelete(info.row.original.sport_center_id)} // Acción de eliminación
             className="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors shadow-md"
           >
-            Eliminar
+            <Trash2 />
           </button>
         </div>
       ),

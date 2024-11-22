@@ -12,7 +12,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import { PencilIcon, PlusCircle } from "lucide-react";
+import { PencilIcon, Trash2  } from "lucide-react";
 import { ScheduleDisciplineForm } from './FormAddScheduleDiscipline';
 import { useScheduleDiscipline } from '@/hooks/useScheduleDiscipline';
 
@@ -52,8 +52,9 @@ export function TableScheduleDiscipline({schedule}: PageProps) {
   };
 
   const onDelete = (id: number) => {
-    console.log(`Eliminar centro deportivo con ID: ${id}`);
-    deleteScheduleDisciplines(id)
+    if (confirm("¿Estás seguro de que deseas ELIMINAR este Horario?")) {
+      deleteScheduleDisciplines(id)
+    }    
   };
 
   const handleCloseForm = () => {
@@ -93,14 +94,14 @@ export function TableScheduleDiscipline({schedule}: PageProps) {
                 setOpenDialog(true);
               }}
               >
-                <PencilIcon className="ml-2" />
+                <PencilIcon className="" />
             </Button>
 
           <button
             onClick={() => onDelete(info.row.original.schedule_for_discipline_id)} // Acción de eliminación
             className="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors shadow-md"
           >
-            Eliminar
+            <Trash2 />
           </button>
         </div>
       ),
