@@ -8,7 +8,7 @@ export const useScheduleDiscipline = (scheduleId: string) => {
   const queryClient = useQueryClient();
 
   const query = useQuery({
-    queryKey: ['schedules', scheduleId],
+    queryKey: ['schedules_discipline', scheduleId],
     queryFn: async () => {
       console.log('Iniciando fetch de schedule disc');
       try {
@@ -25,7 +25,7 @@ export const useScheduleDiscipline = (scheduleId: string) => {
   const createMutation = useMutation({
     mutationFn: (data: Partial<ScheduleDiscipline>) => scheduleDisciplineService.create(data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['schedules'] });
+      queryClient.invalidateQueries({ queryKey: ['schedules_discipline'] });
       toast.success('Schedule Disciplines creado exitosamente');
     },
     onError: (error: Error) => {
@@ -37,7 +37,7 @@ export const useScheduleDiscipline = (scheduleId: string) => {
     mutationFn: ({ id, data }: { id: number; data: Partial<ScheduleDiscipline> }) =>
       scheduleDisciplineService.update(id, data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['schedules'] });
+      queryClient.invalidateQueries({ queryKey: ['schedules_discipline'] });
       toast.success('Disciplines actualizado exitosamente');
     },
     onError: (error: Error) => {
@@ -48,7 +48,7 @@ export const useScheduleDiscipline = (scheduleId: string) => {
   const deleteMutation = useMutation({
     mutationFn: (id: number) => scheduleDisciplineService.delete(id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['schedules'] });
+      queryClient.invalidateQueries({ queryKey: ['schedules_discipline'] });
       toast.success('Schedule Disciplines eliminado exitosamente');
     },
     onError: (error: Error) => {
@@ -57,7 +57,7 @@ export const useScheduleDiscipline = (scheduleId: string) => {
   });
 
   return {
-    schedules: query.data?.schedules || [], 
+    schedules_discipline: query.data?.schedules_discipline || [], 
     isLoading: query.isLoading,
     isError: query.isError,
     error: query.error,

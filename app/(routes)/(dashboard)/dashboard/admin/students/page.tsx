@@ -5,11 +5,11 @@ export default function StudentsPage() {
     return (
         <div>
             <div className="flex justify-between">
-                <h2 className="'text-2xl font-bold">Administrador de Alumnos</h2>
+            <h1 className="text-2xl font-bold text-center text-gray-800">Alumnos</h1>
                 <ButtonAddStudent />
             </div>
             <div>
-                <div className="mt-20">
+                <div className="mt-10">
                     <TableSubscription />
                 </div>
             </div>

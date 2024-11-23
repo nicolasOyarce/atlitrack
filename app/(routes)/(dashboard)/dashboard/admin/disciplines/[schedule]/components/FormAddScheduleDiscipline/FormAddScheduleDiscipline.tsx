@@ -32,7 +32,7 @@ type TimeValue = {
 
 export function ScheduleDisciplineForm({ editingId, setEditingId, setOpenDialog, discipline_name }: { editingId: number | null, setEditingId: React.Dispatch<React.SetStateAction<number | null>>, setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>, discipline_name: string }) {
   const decodedName = discipline_name ? decodeURIComponent(discipline_name as string) : "";
-  const { schedules, isLoading, createScheduleDisciplines, updateScheduleDisciplines } = useScheduleDiscipline(decodedName);
+  const { schedules_discipline, isLoading, createScheduleDisciplines, updateScheduleDisciplines } = useScheduleDiscipline(decodedName);
   const [openHour, setOpenHour] = useState<TimeValue>({ hour: "", minute: "" });
   const [closeHour, setCloseHour] = useState<TimeValue>({ hour: "", minute: "" });
   const [selectedDay, setSelectedDay] = useState<string | null>(null);
@@ -51,7 +51,7 @@ export function ScheduleDisciplineForm({ editingId, setEditingId, setOpenDialog,
   };
   useEffect(() => {
     if (editingId) {
-        const schedule_discipline = schedules.find((s: ScheduleDiscipline) => s.schedule_for_discipline_id === editingId);
+        const schedule_discipline = schedules_discipline.find((s: ScheduleDiscipline) => s.schedule_for_discipline_id === editingId);
 
         if (schedule_discipline) {
             form.reset({

@@ -35,6 +35,18 @@ export class ApiClient<T> {
         throw error;
       }
     }
+    async getWithOutParams(): Promise<ApiResponse<T[]>> {
+      const endpoint = `${this.baseEndpoint}`; // Ruta para GET todos
+      console.log('ApiClient: Iniciando getWithOutParams() en', endpoint);
+      
+      try {
+        const response = await axiosInstance.get<ApiResponse<T[]>>(endpoint);
+        return response.data;
+      } catch (error: any) {
+        this.handleError(error);
+        throw error;
+      }
+    }
   
     async getById(id: string | number): Promise<ApiResponse<T>> {
       const endpoint = `${this.baseEndpoint}/${id}`; // Ruta específica para GET por ID

@@ -1,15 +1,15 @@
 import { ButtonAddPlan } from "./components/ButtonAddPlan";
 import { TablePlan } from "./components/TablePlan/TablePlan";
 
-export default function DisciplinesPage() {
+export default function PlansPage() {
     return (
         <div>
             <div className="flex justify-between">
-                <h2 className="'text-2xl font-bold">Administrador de Planes</h2>
+            <h1 className="text-2xl font-bold text-center text-gray-800">Planes</h1>
                 <ButtonAddPlan />
             </div>
             <div>
-                <div className="mt-20">
+                <div className="mt-10">
                     <TablePlan />
                 </div>
             </div>

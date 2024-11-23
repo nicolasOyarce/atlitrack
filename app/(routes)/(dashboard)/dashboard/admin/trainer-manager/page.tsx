@@ -5,11 +5,11 @@ export default function TrainerManagerPage() {
     return (
         <div>
             <div className="flex justify-between">
-                <h2 className="'text-2xl font-bold">Administrador Entrenadores</h2>
+              <h1 className="text-2xl font-bold text-center text-gray-800">Entrenadores</h1>
                 <ButtonAddTrainer />
             </div>
             <div>
-                <div className="mt-20">
+                <div className="mt-10">
                     <TableTrainer />
                 </div>
             </div>

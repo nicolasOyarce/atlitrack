@@ -183,7 +183,7 @@ export function TrainerForm({ editingId, setEditingId, setOpenDialog }: { editin
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input placeholder="********" {...field} />
+                  <Input placeholder="********" type="password" {...field} />
                 </FormControl>
               </FormItem>
             )}

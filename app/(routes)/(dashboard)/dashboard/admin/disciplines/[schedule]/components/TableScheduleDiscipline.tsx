@@ -30,7 +30,7 @@ const columnHelper = createColumnHelper<ScheduleDiscipline>();
 
 export function TableScheduleDiscipline({schedule}: PageProps) {
   const decodedName = schedule ? decodeURIComponent(schedule as string) : "";
-  const { schedules, isLoading, deleteScheduleDisciplines } = useScheduleDiscipline(decodedName);
+  const { schedules_discipline, isLoading, deleteScheduleDisciplines } = useScheduleDiscipline(decodedName);
   const [data, setData] = useState<ScheduleDiscipline[]>([]);
   const [selectedData, setSelectedData] = useState<ScheduleDiscipline | null>(null);
   const [isEditFormOpen, setIsEditFormOpen] = useState(false);
@@ -38,11 +38,11 @@ export function TableScheduleDiscipline({schedule}: PageProps) {
   const [openDialog, setOpenDialog] = useState(false);
 
   useEffect(() => {
-    if (!isLoading && schedules.length > 0) {
-      const filteredData = schedules.filter((schedule: { discipline_id: string; }) => schedule.discipline_id === decodedName); 
+    if (!isLoading && schedules_discipline.length > 0) {
+      const filteredData = schedules_discipline.filter((schedule: { discipline_id: string; }) => schedule.discipline_id === decodedName); 
       setData(filteredData);
     }
-  }, [schedules, isLoading, decodedName]);
+  }, [schedules_discipline, isLoading, decodedName]);
   
 
   const onEdit = (scheduleDiscipline: ScheduleDiscipline) => {

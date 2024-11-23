@@ -66,8 +66,6 @@ export function DisciplineForm({ editingId, setEditingId, setOpenDialog }: { edi
   const onSubmit = async (values: z.infer<typeof disciplineFormSchema>) => {
       try {
       if (editingId) {
-          console.log("id::",editingId)
-          console.log("data::", values)
           await updateDisciplines({ id: editingId, data: values });
           
           setEditingId(null);

@@ -35,6 +35,7 @@ export function PlanForm({ editingId, setEditingId, setOpenDialog }: { editingId
   const { plans, isLoading, createPlans, updatePlans, deletePlans } = usePlan();
   const { disciplines } = useDiscipline();
   const [isActive, setIsActive] = useState<boolean>(true);
+  
   const toggleActive = () => {
     setIsActive(prevState => !prevState); // Alterna el valor entre true/false
   };
