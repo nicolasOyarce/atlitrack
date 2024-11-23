@@ -16,6 +16,8 @@ import {
 import { trainerFormSchema } from "./FormAddTrainer.form";
 import { useTrainers } from "@/hooks/useTrainer";
 import { UUID } from "crypto";
+import { useSportCenters } from "@/hooks/useSportCenters";
+import GenericSelect from "@/components/ui/GenericSelect";
 
 
 type Trainer = {
@@ -30,8 +32,13 @@ type Trainer = {
     salary: string;
 };
 
+
+
 export function TrainerForm({ editingId, setEditingId, setOpenDialog }: { editingId: string | null, setEditingId: React.Dispatch<React.SetStateAction<string | null>>, setOpenDialog: React.Dispatch<React.SetStateAction<boolean>> }) {
-    const { trainers, isLoading, createTrainers, updateTrainers, deleteTrainers } = useTrainers();
+    const { trainers, isLoading, createTrainers,createTrainerSportcenter, updateTrainers, deleteTrainers } = useTrainers();
+    const { sportCenters} = useSportCenters();
+
+  
 
   const form = useForm<z.infer<typeof trainerFormSchema>>({
     resolver: zodResolver(trainerFormSchema),
@@ -44,6 +51,7 @@ export function TrainerForm({ editingId, setEditingId, setOpenDialog }: { editin
       password: "",
       rut: "",
       salary: "",
+      sportcenter_id: ""
     },
   });
   
@@ -77,6 +85,7 @@ export function TrainerForm({ editingId, setEditingId, setOpenDialog }: { editin
           password: "",
           rut: "",
           salary: "",
+          sportcenter_id: ""
         });
     }
       // Only reset when editingId changes
@@ -85,13 +94,24 @@ export function TrainerForm({ editingId, setEditingId, setOpenDialog }: { editin
     const onSubmit = async (values: z.infer<typeof trainerFormSchema>) => {
         try {
         if (editingId) {
-            console.log("id::",editingId)
-            console.log("data::", values)
             await updateTrainers({ id: editingId, data: values });
-            
             setEditingId(null);
         } else {
-            await createTrainers(values);
+          await createTrainers(values);
+
+          const sportCenterId = form.getValues("sportcenter_id");
+          const trainerEmail = form.getValues("email");
+          console.log("SPORT", sportCenterId)
+          console.log("SPORT", trainerEmail)
+
+          if (!sportCenterId) {
+            throw new Error("No se seleccionó un centro deportivo");
+          }
+          await new Promise(resolve => setTimeout(resolve, 200)); 
+          await createTrainerSportcenter({
+            sportcenter_id: sportCenterId,
+            trainer_id: trainerEmail, // Usa el user_id del backend
+          });
         }
         setOpenDialog(false)
         form.reset();
@@ -212,7 +232,14 @@ export function TrainerForm({ editingId, setEditingId, setOpenDialog }: { editin
               </FormItem>
             )}
           />
-          
+          <GenericSelect
+                data={sportCenters}
+                valueKey="sportcenter_id"
+                valueKey2="mail"
+                labelKey="sport_center_name"
+                name="sportcenter_id"
+                label="Centro deportivo"
+              />
         </div>
         <div className="space-x-4">
           <Button type="submit" className="w-full lg:w-auto">

@@ -10,6 +10,7 @@ export const trainerSchema = z.object({
     password: z.string().min(1).max(100),
     rut: z.string().min(1).max(100),
     salary: z.string().min(1).max(100),
+    sportcenter_id: z.string().min(1).max(100),
 });
 
 export type Trainer = z.infer<typeof trainerSchema>;

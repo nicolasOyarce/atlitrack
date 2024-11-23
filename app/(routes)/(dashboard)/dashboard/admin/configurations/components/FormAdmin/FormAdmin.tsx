@@ -54,7 +54,7 @@ export function AdminForm({ editingId, setEditingId }: { editingId: string | nul
         console.log(user)
         if (user) {
             const formData= {
-              first_name: user.first_name, ¿
+              first_name: user.first_name, 
               last_name: user.last_name,
               genre: user.genre,
               email: user.email,

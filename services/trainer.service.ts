@@ -14,3 +14,11 @@ export interface Trainer {
 }
 
 export const trainerService = new ApiClient<Trainer>('/admin/trainer');
+
+export interface TrainerSportcenter {
+    trainer_sportcenter_id: number;
+    sportcenter_id: string;
+    trainer_id: string;
+}
+
+export const trainerSportcenterService = new ApiClient<TrainerSportcenter>('/admin/trainer_sportcenter');

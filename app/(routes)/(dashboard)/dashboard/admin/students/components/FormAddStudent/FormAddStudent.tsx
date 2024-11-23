@@ -46,6 +46,7 @@ export function SubscriptionForm({ editingId, setEditingId, setOpenDialog,isRene
       status: "",
       last_renewal_date: "",
       plan_id: "",
+      sport_center_id: "",
     },
   });
 
@@ -73,6 +74,7 @@ export function SubscriptionForm({ editingId, setEditingId, setOpenDialog,isRene
           status: "",
           last_renewal_date: "",
           plan_id: "",
+          sport_center_id: "",
         });
     }
   }, [editingId, students_sportcenter, form]);

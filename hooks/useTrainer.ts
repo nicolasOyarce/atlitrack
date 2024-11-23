@@ -1,7 +1,7 @@
 "use client";
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { trainerService, Trainer } from '@/services/trainer.service';
+import { trainerService,trainerSportcenterService, Trainer, TrainerSportcenter } from '@/services/trainer.service';
 import { toast } from 'sonner';
 
 export const useTrainers = () => {
@@ -33,6 +33,19 @@ export const useTrainers = () => {
     }
   });
 
+  const createMutationJoin = useMutation({
+    mutationFn: (data: Partial<TrainerSportcenter>) => trainerSportcenterService.create(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['trainerSporcenter'] });
+      toast.success('Trainer creado exitosamente');
+    },
+    onError: (error: Error) => {
+      toast.error(error.message);
+    }
+  });
+
+
+
   const updateMutation = useMutation({
     mutationFn: ({ id, data }: { id: string; data: Partial<Trainer> }) =>
       trainerService.update(id, data),
@@ -62,6 +75,7 @@ export const useTrainers = () => {
     isError: query.isError,
     error: query.error,
     createTrainers: createMutation.mutate,
+    createTrainerSportcenter: createMutationJoin.mutate,
     updateTrainers: updateMutation.mutate,
     deleteTrainers: deleteMutation.mutate
   };
