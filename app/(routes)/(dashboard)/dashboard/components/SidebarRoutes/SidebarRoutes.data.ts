@@ -1,30 +1,6 @@
 import { Calendar, ChartLine, HousePlus, Dumbbell, NotebookPen, UserPen, Settings, BicepsFlexed} from "lucide-react";
 import { exit } from "process";
 
-export const dataGeneralSidebar = [
-    {
-        icon: "",
-        label: "Clases",
-        href:"/dashboard"
-    },
-    {
-        icon: "",
-        label: "Clases Reservadas",
-        href:"/reserves"
-    },
-    {
-        icon: "",
-        label: "Clases Favoritas",
-        href:"/loved-class"
-    },
-    {
-        icon: "",
-        label:"Cerrar sesion",
-        href: "../../sign-in"
-
-    }
-]
-
 export const dataAdminSidebar = [
     {
         icon: HousePlus,
@@ -66,4 +42,23 @@ export const dataAdminSidebar = [
         label: "Configuraciones",
         href:"/dashboard/admin/configurations"
     },
+]
+
+export const dataStudentSidebar = [
+    {
+        icon: HousePlus,
+        label: "Agendar",
+        href:"/dashboard/student/sport-center-manager"
+    },
+    {
+        icon: HousePlus,
+        label: "Historial",
+        href:"/dashboard/student/sport-center-manager"
+    },
+    {
+        icon: HousePlus,
+        label: "Configuraciones",
+        href:"/dashboard/student/sport-center-manager"
+    },
+
 ]

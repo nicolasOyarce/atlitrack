@@ -18,6 +18,7 @@ import {
     FormLabel,
   } from "@/components/ui/form";
 import { useAuth } from "@/app/api/auth/login/route"
+import Link from "next/link"
   
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -68,14 +69,16 @@ export default function RegisterPage() {
     <div className="flex items-center justify-center min-h-[90vh]">
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex-1 space-y-4 w-full max-w-md p-8">
         <div>
-          <Label htmlFor="" className="text-4xl text-slate-500 font-bold pl-2">Registrate aquí!</Label>
+        <Label htmlFor="" className="text-4xl text-slate-500 font-bold pl-2">Registrate aquí!</Label>
+        <br />
+        <Label htmlFor="" className="text-2xl text-slate-400 font-bold pl-2">como alumno</Label>
         </div>
         <FormField
             control={form.control}
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Correo electronico</FormLabel>
+                <FormLabel className="p-2 text-xl text-slate-500">Correo electronico</FormLabel>
                 <FormControl>
                   <Input placeholder="Jhon@example.com" {...field} />
                 </FormControl>
@@ -87,9 +90,9 @@ export default function RegisterPage() {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Contraseña</FormLabel>
+                <FormLabel className="p-2 text-xl text-slate-500">Contraseña</FormLabel>
                 <FormControl>
-                  <Input placeholder="*****" {...field} />
+                  <Input placeholder="*****" {...field} type="password"/>
                 </FormControl>
               </FormItem>
             )}
@@ -99,9 +102,9 @@ export default function RegisterPage() {
             name="repit_password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Repetir Contraseña</FormLabel>
+                <FormLabel className="p-2 text-xl text-slate-500">Repetir Contraseña</FormLabel>
                 <FormControl>
-                  <Input placeholder="*****" {...field} />
+                  <Input placeholder="*****" {...field} type="password"/>
                 </FormControl>
               </FormItem>
             )}
@@ -111,6 +114,9 @@ export default function RegisterPage() {
           <Button type="submit" className="w-full text-lg p-8 font-semibold" >
           Registrarse
         </Button>
+        </div>
+        <div>
+          <Label>¿Ya tienes una cuenta? <Link href="/sign-in" className="text-green-600 hover:text-green-800">Iniciar sesión</Link></Label>
         </div>
         
       </form>

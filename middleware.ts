@@ -9,7 +9,6 @@ async function verifyToken(token: string) {
     // Usa la misma clave secreta que tu backend
     const secret = new TextEncoder().encode(process.env.JWT_SECRET);
     const { payload } = await jwtVerify(token, secret);
-    console.log(payload)
     return payload;
   } catch (error) {
     return null;

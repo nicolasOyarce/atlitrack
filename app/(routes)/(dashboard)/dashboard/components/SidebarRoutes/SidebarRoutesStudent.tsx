@@ -2,12 +2,12 @@
 
 import { Separator } from "@/components/ui/separator"
 {/*import { useAuth } from "@clerk/nextjs";*/}
-import { dataAdminSidebar } from "./SidebarRoutes.data";
+import { dataStudentSidebar } from "./SidebarRoutes.data";
 import { SidebarItem } from "./SidebarItem";
 import { useAuth } from "@/app/api/auth/login/route"
 import { LogOut } from "lucide-react";
 
-export const SidebarRoutes = () => {
+export const SidebarRoutesStudent = () => {
     {/*const { userId } = useAuth();*/}
     const { logout } = useAuth(); // Obtén la función logout desde el contexto de autenticación
 
@@ -18,19 +18,10 @@ export const SidebarRoutes = () => {
     return (
         <div className="flex flex-col justify-between h-full">
             <div>
-                {/*<div className="p-2 md:p-6">
-                    <p className="mb-2 text-slate-300">GENERAL</p>
-                    {dataGeneralSidebar.map((item) => (
-                        <SidebarItem key={item.label} item={item} />
-                    ))}
-                </>
-                <Separator />
-                
-                */}
                 <div className="p-2 md:p-6 mt-3">
                     <div className="">
                         <p className="mb-2 text-slate-700 text-xl font-semibold pl-4">Menú</p>
-                        {dataAdminSidebar.map((item) => (
+                        {dataStudentSidebar.map((item) => (
                             <SidebarItem key={item.label} item={item} />
                         ))}
                         <a
