@@ -5,7 +5,7 @@ export default function ScheduleDisciplinesPage() {
     return (
         <div>
             <div className="flex justify-between">
-                <h2 className="'text-2xl font-bold">Horarios de Disciplinas</h2>
+                <h1 className="text-2xl font-bold text-center text-gray-800">Horarios de Disciplinas</h1>
                 <ButtonAddScheduleDiscipline />
             </div>
             <div>

@@ -9,6 +9,7 @@ async function verifyToken(token: string) {
     // Usa la misma clave secreta que tu backend
     const secret = new TextEncoder().encode(process.env.JWT_SECRET);
     const { payload } = await jwtVerify(token, secret);
+    console.log(payload)
     return payload;
   } catch (error) {
     return null;
@@ -37,9 +38,16 @@ export async function middleware(req: NextRequest) {
   }
   if (token) {
     const payload = await verifyToken(token);
-    
     // Si el token es válido, permite el acceso
+    const currentPath = req.nextUrl.pathname;
     if (payload) {
+      if (req.nextUrl.pathname.startsWith("/dashboard") && payload.role === "Roles.student" && currentPath !== "/dashboard/student") {
+        return NextResponse.redirect(new URL("/dashboard/student", req.url));
+      }
+  
+      if (req.nextUrl.pathname.startsWith("/dashboard") && payload.role === "Roles.admin_sportcenter" && currentPath !== "/dashboard/admin/sport-center-manager") {
+        return NextResponse.redirect(new URL("/dashboard/admin/sport-center-manager", req.url));
+      }
       return NextResponse.next();
     }
   }

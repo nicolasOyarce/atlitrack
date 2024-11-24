@@ -59,50 +59,34 @@ export function SportCenterForm({ editingId, setEditingId, setOpenDialog }: { ed
     return { hour, minute };
 };
     useEffect(() => {
-        if (editingId) {
-            console.log('Editing sport center with ID:', editingId);
-            
-            const sportCenter = sportCenters.find((sc: SportCenter) => sc.sport_center_id === editingId); 
-            console.log('Sportcenter::' , sportCenter)
-            if (sportCenter) {
-                console.log('Found sport center:', sportCenter);
-                // Populate the form fields with the existing sport center data
-                const selectedCity = CitiesOptions.find((city) => city.label === sportCenter.city_name);
-                const selectedComuna = communes.find((commune) => commune.name === sportCenter.comuna_name);
-                console.log(selectedCity)
-                console.log(selectedComuna?.id)
-                form.reset({
-                    sport_center_name: sportCenter.sport_center_name,
-                    city_id: selectedCity?.value || 0,
-                    comuna_id: selectedComuna?.id || 0,
-                    address: sportCenter.address,
-                    phone: sportCenter.phone.toString(),
-                    mail: sportCenter.mail,
-                    open_hour: sportCenter.open_hour,
-                    close_hour: sportCenter.close_hour,
-                });
+      if (editingId) {
+        console.log('Editing sport center with ID:', editingId);
         
-                // Set the open and close hour values
-                //setSelectedComuna(sportCenter.comuna_name)
-                setSelectedCity(selectedCity?.value || null);
-                setOpenHour(parseTime(sportCenter.open_hour));
-                setCloseHour(parseTime(sportCenter.close_hour));
-            }
-            } else {
-            console.log('Could not find sport center with ID:', editingId);
-            // Reset the form to the default values
+        const sportCenter = sportCenters.find((sc: SportCenter) => sc.sport_center_id === editingId); 
+        if (sportCenter) {
+            // Populate the form fields with the existing sport center data
+            const selectedCity = CitiesOptions.find((city) => city.label === sportCenter.city_name);
+            const selectedComuna = communes.find((commune) => commune.name === sportCenter.comuna_name);
+
             form.reset({
-                sport_center_name: "",
-                city_id: 0,
-                comuna_id: 0,
-                address: "",
-                phone: "",
-                mail: "",
-                open_hour: "",
-                close_hour: "",
+                sport_center_name: sportCenter.sport_center_name,
+                city_id: selectedCity?.value || 0,
+                comuna_id: selectedComuna?.id || 0,
+                address: sportCenter.address,
+                phone: sportCenter.phone.toString(),
+                mail: sportCenter.mail,
+                open_hour: sportCenter.open_hour,
+                close_hour: sportCenter.close_hour,
             });
-            }
-        }, [editingId, sportCenters, form]);
+    
+            // Set the open and close hour values
+            //setSelectedComuna(sportCenter.comuna_name)
+            setSelectedCity(selectedCity?.value || null);
+            setOpenHour(parseTime(sportCenter.open_hour));
+            setCloseHour(parseTime(sportCenter.close_hour));
+        }
+        }
+      }, [editingId, sportCenters, form]);
 
     const formatTime = (time: { hour: string; minute: string }): string => {
         return `${time.hour}:${time.minute}`;

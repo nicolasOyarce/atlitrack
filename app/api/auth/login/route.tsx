@@ -96,7 +96,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setUser(response.data);
       
       // Redirigir a la página deseada
-      router.push("/dashboard/admin/sport-center-manager");// Redirige al dashboard o página de inicio después del login
+      router.push("/dashboard/");// Redirige al dashboard o página de inicio después del login
     } catch (error) {
       console.error("Error de inicio de sesión:", error);
       throw error;
