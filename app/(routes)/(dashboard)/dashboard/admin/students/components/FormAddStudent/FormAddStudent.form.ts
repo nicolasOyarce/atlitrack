@@ -9,7 +9,7 @@ export const SubscriptionSchema = z.object({
     status: z.string().min(1).max(100).optional(),
     last_renewal_date: z.string().min(1).max(100).optional(),
     plan_id: z.string().min(1).max(100),
-    sport_center_id: z.string().min(1).max(100),
+    //sport_center_id: z.string().min(1).max(100),
 
 });
 

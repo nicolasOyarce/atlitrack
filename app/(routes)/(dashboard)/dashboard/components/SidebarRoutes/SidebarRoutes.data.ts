@@ -1,4 +1,4 @@
-import { Calendar, ChartLine, HousePlus, Dumbbell, NotebookPen, UserPen, Settings, BicepsFlexed} from "lucide-react";
+import { Calendar, ChartLine, HousePlus, Dumbbell, NotebookPen, UserPen, Settings,FileClock, BicepsFlexed} from "lucide-react";
 import { exit } from "process";
 
 export const dataAdminSidebar = [
@@ -46,19 +46,19 @@ export const dataAdminSidebar = [
 
 export const dataStudentSidebar = [
     {
-        icon: HousePlus,
+        icon: Calendar,
         label: "Agendar",
-        href:"/dashboard/student/sport-center-manager"
+        href:"/dashboard/student/schedule"
     },
     {
-        icon: HousePlus,
+        icon: FileClock,
         label: "Historial",
-        href:"/dashboard/student/sport-center-manager"
+        href:"/dashboard/student/historial"
     },
     {
-        icon: HousePlus,
+        icon: Settings,
         label: "Configuraciones",
-        href:"/dashboard/student/sport-center-manager"
+        href:"/dashboard/student/configurations"
     },
 
 ]
