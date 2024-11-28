@@ -34,7 +34,7 @@ export async function middleware(req: NextRequest) {
 
   if (!token && !refreshToken) {
     console.log("No tokens found - redirecting to login");
-    if (currentPath !== '/sign-in') {
+    if (currentPath !== '/sign-in' && currentPath !== '/sign-up') {
       return NextResponse.redirect(new URL('/sign-in', req.url));
     }
     return NextResponse.next();

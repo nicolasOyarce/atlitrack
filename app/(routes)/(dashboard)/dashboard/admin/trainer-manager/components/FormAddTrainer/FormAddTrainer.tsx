@@ -57,13 +57,9 @@ export function TrainerForm({ editingId, setEditingId, setOpenDialog }: { editin
   
   useEffect(() => {
     if (editingId) {
-        console.log('Editing trainer with ID:', editingId);
-        
         const trainer = trainers.find((t: Trainer) => t.user_id === editingId); 
-        console.log('Trainer:', trainer);
         
         if (trainer) {
-            console.log('Found trainer:', trainer);
             form.reset({
               first_name: trainer.first_name,
               last_name: trainer.last_name,
@@ -73,6 +69,7 @@ export function TrainerForm({ editingId, setEditingId, setOpenDialog }: { editin
               password: trainer.password,
               rut: trainer.rut,
               salary: trainer.salary.toString(),
+              sportcenter_id: ""
             });
         }
     } else {
@@ -101,13 +98,11 @@ export function TrainerForm({ editingId, setEditingId, setOpenDialog }: { editin
 
           const sportCenterId = form.getValues("sportcenter_id");
           const trainerEmail = form.getValues("email");
-          console.log("SPORT", sportCenterId)
-          console.log("SPORT", trainerEmail)
 
           if (!sportCenterId) {
             throw new Error("No se seleccionó un centro deportivo");
           }
-          await new Promise(resolve => setTimeout(resolve, 200)); 
+          await new Promise(resolve => setTimeout(resolve, 300)); 
           await createTrainerSportcenter({
             sportcenter_id: sportCenterId,
             trainer_id: trainerEmail, // Usa el user_id del backend

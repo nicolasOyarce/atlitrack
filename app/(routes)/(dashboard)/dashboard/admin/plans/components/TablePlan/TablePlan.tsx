@@ -112,6 +112,8 @@ export function TablePlan() {
             </Button>
 
           <Button
+            title="Haz clic para ELIMINAR este plan"
+
             onClick={() => onDelete(info.row.original.plan_id)} // Acción de eliminación
             className="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors shadow-md"
           >

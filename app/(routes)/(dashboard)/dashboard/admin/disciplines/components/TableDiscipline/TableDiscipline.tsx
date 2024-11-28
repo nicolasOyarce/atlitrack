@@ -50,6 +50,7 @@ export function TableDiscipline() {
   };
 
   const onDelete = (id: number) => {
+    console.log("delte", id);
     if (confirm("¿Estás seguro de que deseas eliminar este entrenador?")) {
       deleteDisciplines(id);  // Llama a la función de eliminación del hook
     }

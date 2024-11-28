@@ -91,7 +91,7 @@ export function TableStudentSchedule() {
   if (isLoading) return <div>Cargando...</div>;
 
   return (
-    <div>
+    <div className='min-w-full'>
       <DataTable<StudentSchedule>
         data={data}
         columns={columns}

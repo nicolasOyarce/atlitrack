@@ -29,7 +29,7 @@ export const useStudentSchedule = () => {
     mutationFn: (data: Partial<ScheduleStudent>) => scheduleStudentService.create(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['studentSchedule'] });
-      toast.success('StudentSchedule creado exitosamente');
+      toast.success('Ha agendado una clase!');
     },
     onError: (error: Error) => {
       toast.error(error.message);
@@ -39,7 +39,7 @@ export const useStudentSchedule = () => {
     mutationFn: (id: number) => studentScheduleService.delete(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['studentScheduleHistorial'] });
-      toast.success('StudentSchedule eliminado exitosamente');
+      toast.success('Ha cancelado una clase!');
     },
     onError: (error: Error) => {
       toast.error(error.message);

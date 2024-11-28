@@ -408,13 +408,13 @@ export const communes = [
 ];
 
 export const DaysOptions = [
-  { value: 1, label: "Lunes" },
-  { value: 2, label: "Martes" },
-  { value: 3, label: "Miercoles" },
-  { value: 4, label: "Jueves" },
-  { value: 5, label: "Viernes" },
-  { value: 6, label: "Sabado" },
-  { value: 7, label: "Domingo" }
+  { value: 1, label: "lunes" },
+  { value: 2, label: "martes" },
+  { value: 3, label: "miércoles" },
+  { value: 4, label: "jueves" },
+  { value: 5, label: "viernes" },
+  { value: 6, label: "sábado" },
+  { value: 7, label: "domingo" }
 ]
 
 export const StatusSubscriptionOptions = [

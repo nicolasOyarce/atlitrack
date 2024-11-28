@@ -45,10 +45,7 @@ const Calendar: React.FC = () => {
     setSelectedSchedule(schedule);
     setIsModalOpen(true);
   };
-  const handleCloseModal = () => {
-    setSelectedSchedule(null);
-    setIsModalOpen(false);
-  };
+  
   const {setValue, watch, ...form} = useForm<z.infer<typeof scheduleStudentFormSchema>>({
     resolver: zodResolver(scheduleStudentFormSchema),
     defaultValues: {
@@ -100,13 +97,19 @@ const Calendar: React.FC = () => {
     return availableTimes.filter((time: { day: string; }) => time.day === day);
   };
 
+  const handleCloseModal = () => {
+    console.log("Cerrando modal...");
+    setSelectedSchedule(null);
+    setIsModalOpen(false);
+  };
   const onSubmit = async (values: z.infer<typeof scheduleStudentFormSchema>) => {
     try {
         await createSchedule(values);
-        handleCloseModal()
         form.reset();
     } catch (error) {
     console.error("Error:", error);
+    } finally {
+      handleCloseModal()
     }
   };
   if (isLoading) return <div>Loading...</div>;
@@ -162,7 +165,7 @@ const Calendar: React.FC = () => {
                       <span className="block text-xs text-gray-500 italic">
                         Entrenador: {time.trainer}
                       </span>
-                      <Dialog>
+                      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
                       <DialogTrigger asChild>
                         <button
                           className="rounded-3xl w-full bg-blue-500 text-white py-2 mt-2 hover:bg-blue-600 transition duration-300"

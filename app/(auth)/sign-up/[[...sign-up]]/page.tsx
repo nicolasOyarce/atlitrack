@@ -55,8 +55,6 @@ export default function RegisterPage() {
         console.log(values.email)
         await createStudentUser(values)
         await login(values.email, values.password)
-
-        router.push("/dashboard/student")
     }
     }catch (error) {
         console.error("Error:", error);

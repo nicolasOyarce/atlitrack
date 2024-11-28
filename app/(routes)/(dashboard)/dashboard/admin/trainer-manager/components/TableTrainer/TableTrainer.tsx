@@ -53,6 +53,7 @@ export function TableTrainer() {
   };
 
   const onDelete = (id: string) => {
+    console.log("delte", id);
     if (confirm("¿Estás seguro de que deseas eliminar este entrenador?")) {
       deleteTrainers(id);  // Llama a la función de eliminación del hook
     }

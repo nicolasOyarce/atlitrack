@@ -183,7 +183,7 @@ export function ScheduleDisciplineForm({ editingId, setEditingId, setOpenDialog,
         </div>
         <div className="space-x-4">
           <Button type="submit" className="w-full lg:w-auto">
-            {editingId ? "Actualizar Disciplina" : "Crear Disciplina"}
+            {editingId ? "Actualizar Horario" : "Crear Horario"}
           </Button>
         </div>
       </form>
