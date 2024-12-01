@@ -12,7 +12,6 @@ import { useState } from "react";
 import { PlusCircle } from "lucide-react";
 import { SportCenterForm } from "../FormAddSportCenter";
 
-
 export function ButtonAddSportCenter() {
     const [openDialog, setOpenDialog] = useState(false);
     const [editingId, setEditingId] = useState<number | null>(null);
@@ -20,22 +19,26 @@ export function ButtonAddSportCenter() {
     return (
         <Dialog open={openDialog} onOpenChange={setOpenDialog}>
             <DialogTrigger asChild>
-                <Button variant="outline" onClick={()=> setOpenDialog(true)}>
+                <Button 
+                    onClick={() => setOpenDialog(true)}
+                    className="bg-gray-800 text-white hover:bg-gray-700" 
+                >
                     Agregar nuevo centro deportivo
                     <PlusCircle className="ml-2" />
                 </Button>
             </DialogTrigger>
             <DialogContent>
-            <DialogTitle>Agregar un nuevo centro deportivo</DialogTitle> {/* Título accesible */}
+                <DialogTitle>Agregar un nuevo centro deportivo</DialogTitle>
                 <DialogHeader>
                     <DialogDescription>
                         <SportCenterForm 
-                        editingId={editingId}
-                        setEditingId={setEditingId}
-                        setOpenDialog={setOpenDialog}/>
+                            editingId={editingId}
+                            setEditingId={setEditingId}
+                            setOpenDialog={setOpenDialog}
+                        />
                     </DialogDescription>    
                 </DialogHeader>
             </DialogContent>
         </Dialog>
-    )
+    );
 }

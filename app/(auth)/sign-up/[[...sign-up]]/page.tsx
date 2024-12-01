@@ -112,7 +112,7 @@ export default function RegisterPage() {
               />
             </div>
             <a href="#" className="text-sm text-blue-400 hover:underline mt-2 block text-center">
-              ¿Olvidaste tu contraseña?
+              ¿Ya tienes cuenta?
             </a>
 
             <button

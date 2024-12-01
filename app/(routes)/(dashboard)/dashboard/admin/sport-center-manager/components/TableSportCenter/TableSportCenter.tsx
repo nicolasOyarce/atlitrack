@@ -116,7 +116,7 @@ export function TableSportCenter() {
             </Button>
 
           <button
-            onClick={() => onDelete(info.row.original.sport_center_id)} // Acción de eliminación
+            onClick={() => onDelete(info.row.original.sport_center_id)} 
             className="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors shadow-md"
           >
             <Trash2 />
