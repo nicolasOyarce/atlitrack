@@ -5,9 +5,7 @@ export function Footer() {
     return (
         <footer className="bg-gray-950 text-white">
             <div className="max-w-6xl mx-auto px-4 py-12">
-                {/* Main Footer Content */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    {/* Company Info */}
                     <div className="space-y-4">
                         <h3 className="text-xl font-bold mb-4">AtliTrack</h3>
                         <p className="text-gray-400">
@@ -15,7 +13,6 @@ export function Footer() {
                         </p>
                     </div>
 
-                    {/* Quick Links */}
                     <div>
                         <h4 className="text-lg font-semibold mb-4">Enlaces Rápidos</h4>
                         <ul className="space-y-2">
@@ -35,33 +32,31 @@ export function Footer() {
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/membership" className="text-gray-400 hover:text-white transition-colors">
-                                    Membresías
+                                <Link href="/plans" className="text-gray-400 hover:text-white transition-colors">
+                                    Planes
                                 </Link>
                             </li>
                         </ul>
                     </div>
 
-                    {/* Contact Info */}
                     <div>
                         <h4 className="text-lg font-semibold mb-4">Contacto</h4>
                         <ul className="space-y-2">
                             <li className="flex items-center text-gray-400">
                                 <Phone size={18} className="mr-2" />
-                                <span>+1 234 567 890</span>
+                                <span>+56 973664456</span>
                             </li>
                             <li className="flex items-center text-gray-400">
                                 <Mail size={18} className="mr-2" />
-                                <span>info@sportcenter.com</span>
+                                <span>atlitrack@sportcenter.com</span>
                             </li>
                             <li className="flex items-center text-gray-400">
                                 <MapPin size={18} className="mr-2" />
-                                <span>123 Calle Principal, Ciudad</span>
+                                <span>Principales #443, Santiago de Chile</span>
                             </li>
                         </ul>
                     </div>
 
-                    {/* Social Media */}
                     <div>
                         <h4 className="text-lg font-semibold mb-4">Síguenos</h4>
                         <div className="flex space-x-4">
@@ -78,7 +73,6 @@ export function Footer() {
                     </div>
                 </div>
 
-                {/* Bottom Bar */}
                 <div className="border-t border-gray-800 mt-12 pt-8">
                     <div className="flex flex-col md:flex-row justify-between items-center">
                         <p className="text-gray-400 text-sm">

@@ -41,7 +41,6 @@ export function ContactForm() {
 
     const onSubmit = (data: FormValues) => {
         console.log(data);
-        // Aquí manejar el envío del formulario
     };
 
     return (
@@ -49,16 +48,7 @@ export function ContactForm() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
                     <div className="grid grid-cols-1 lg:grid-cols-2">
-                        {/* Lado izquierdo - Imagen y texto */}
                         <div className="relative bg-gray-900 p-12 flex flex-col justify-center">
-                            <div className="absolute inset-0 opacity-20">
-                                <Image
-                                    src="/images/"
-                                    alt="Background"
-                                    fill
-                                    className="object-cover"
-                                />
-                            </div>
                             <div className="relative">
                                 <h2 className="text-4xl font-bold text-white mb-4">
                                     {content.hero.title}
@@ -68,8 +58,6 @@ export function ContactForm() {
                                 </p>
                             </div>
                         </div>
-
-                        {/* Lado derecho - Formulario */}
                         <div className="p-12 bg-gray-950">
                             <h3 className="text-2xl font-bold text-white mb-8">
                                 {content.form.title}
