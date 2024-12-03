@@ -87,7 +87,7 @@ export function AdminForm({ editingId, setEditingId }: { editingId: string | nul
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <div className="grid gap-6 lg:grid-cols-2">
+        <div className="grid gap-6 lg:grid-cols-2 p-4 m-2 text-white">
           <FormField
             control={form.control}
             name="first_name"

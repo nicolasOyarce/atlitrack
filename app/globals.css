@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-/*flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm */
+
 .at-input {
   @apply   flex h-10 w-full rounded-md border border-slate-400  bg-white px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 text-black
 }
@@ -9,7 +9,7 @@
 .at-btn-home {
   @apply rounded-xl p-1 px-2 text-green-600 font-semibold border-2 border-green-600 hover:bg-white hover:text-black
 }
-/* Estilo para el interruptor deslizante */
+
 .switch {
   position: relative;
   display: inline-block;
@@ -131,5 +131,12 @@ body {
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .stroke-white {
+    stroke: white !important;
+    color: white !important;
   }
 }

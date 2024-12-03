@@ -9,31 +9,31 @@ const ConfigurationStudentPage = () => {
     const [userData, setUserData] = useState<any>(null);
     const toggleEdit = () => {
         if (editingId) {
-          setEditingId(null); // Si ya estamos editando, lo desactivamos
+          setEditingId(null);
         } else {
-          setEditingId("editing"); // Un valor arbitrario para indicar que estamos en modo de edición
+          setEditingId("editing");
         }
       };
     
 return (
         <>
           <div className="flex justify-between">
-            <h1 className="text-2xl font-bold text-center text-gray-800">Configuraciones</h1>
+            <h1 className="text-2xl font-bold text-center text-slate-300">Configuraciones</h1>
             <Button 
               variant="outline" 
-              onClick={toggleEdit} // Cambiar la lógica aquí para alternar entre editar y cancelar
+              onClick={toggleEdit}
               className={`flex items-center px-4 py-2 border border-1 rounded-md font-semibold transition-colors duration-300 hover:text-white
-                ${editingId ? 'bg-red-500 hover:bg-red-400 text-white ' : 'bg-blue-500 hover:bg-blue-400 text-white'}`}
+                ${editingId ? 'bg-red-500 hover:bg-red-400 text-white ' : 'bg-gray-700 hover:bg-gray-200 text-white hover:text-black'}`}
             >
               {editingId ? (
                     <>
                     Cancelar
-                    <XCircle className="ml-1" /> {/* Icono para "Cancelar" */}
+                    <XCircle className="ml-1" />
                     </>
                 ) : (
                     <>
                     Editar Perfil
-                    <PlusCircle className="ml-1" /> {/* Icono para "Editar Perfil" */}
+                    <PlusCircle className="ml-1" />
                     </>
                 )}
             </Button>
@@ -41,8 +41,8 @@ return (
     
           <div>
             <AdminForm 
-              editingId={editingId} // Pasamos el estado al formulario
-              setEditingId={setEditingId} // Opcional, si necesitas actualizarlo desde el formulario
+              editingId={editingId} 
+              setEditingId={setEditingId} 
             />
           </div>
         </>

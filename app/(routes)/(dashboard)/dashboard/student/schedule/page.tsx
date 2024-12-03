@@ -5,7 +5,7 @@ const Home = () => {
   return (
     <div>
         <div className="">
-        <h1 className="text-2xl font-bold text-center text-gray-800">
+        <h1 className="text-2xl font-bold text-center text-slate-300">
         Agendar
         </h1>
             <Schedule />

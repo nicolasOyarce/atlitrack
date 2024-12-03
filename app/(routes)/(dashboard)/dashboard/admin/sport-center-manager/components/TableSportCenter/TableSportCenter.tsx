@@ -12,8 +12,7 @@ import {
     DialogDescription,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
 import { PencilIcon, Trash2 } from "lucide-react";
 
 interface SportCenter {
@@ -38,7 +37,6 @@ export function TableSportCenter() {
   const [editingId, setEditingId] = useState<number | null>(null);
   const [openDialog, setOpenDialog] = useState(false);
 
-
   useEffect(() => {
     if (!isLoading && JSON.stringify(sportCenters) !== JSON.stringify(data)) {
       setData(sportCenters);
@@ -46,20 +44,19 @@ export function TableSportCenter() {
   }, [sportCenters, isLoading]);
 
   const onEdit = (sportCenter: SportCenter) => {
-    setSelectedData(sportCenter); // Se almacenan los datos del centro deportivo a editar
-    setEditingId(sportCenter.sport_center_id); // Actualizamos el ID de edición
-    setIsEditFormOpen(true); // Se abre el formulario de edición
+    setSelectedData(sportCenter);
+    setEditingId(sportCenter.sport_center_id);
+    setIsEditFormOpen(true);
   };
 
   const onDelete = (id: number) => {
     console.log(`Eliminar centro deportivo con ID: ${id}`);
-    // Lógica para eliminar el centro deportivo
   };
 
   const handleCloseForm = () => {
     setIsEditFormOpen(false);
-    setSelectedData(null); // Se limpia la selección
-    setEditingId(null); // Limpiamos el ID de edición
+    setSelectedData(null);
+    setEditingId(null);
   };
 
   const columns: ColumnDef<SportCenter, any>[] = [
@@ -129,7 +126,7 @@ export function TableSportCenter() {
   if (isLoading) return <div>Cargando...</div>;
 
   return (
-    <div>
+    <div className="w-full max-w-full overflow-x-auto">
       <DataTable<SportCenter>
         data={data}
         columns={columns}
@@ -138,20 +135,20 @@ export function TableSportCenter() {
         pageSizeOptions={[5, 10, 20, 50]}
       />
       {isEditFormOpen && selectedData && (
-      <Dialog open={openDialog} onOpenChange={setOpenDialog}>
-        <DialogContent>
-          <DialogTitle>Actualizar Centro</DialogTitle> {/* Título accesible */}
+        <Dialog open={openDialog} onOpenChange={setOpenDialog}>
+          <DialogContent>
+            <DialogTitle>Actualizar Centro</DialogTitle>
             <DialogHeader>
-                <DialogDescription>
-                    <SportCenterForm 
-                    editingId={editingId}
-                    setEditingId={setEditingId}
-                    setOpenDialog={setOpenDialog}/>
-                </DialogDescription>    
+              <DialogDescription>
+                <SportCenterForm
+                  editingId={editingId}
+                  setEditingId={setEditingId}
+                  setOpenDialog={setOpenDialog}
+                />
+              </DialogDescription>
             </DialogHeader>
-        </DialogContent>
-      </Dialog>
-        
+          </DialogContent>
+        </Dialog>
       )}
     </div>
   );

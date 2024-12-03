@@ -18,7 +18,7 @@ export function ButtonAddTrainer() {
     const [editingId, setEditingId] = useState<string | null>(null);
 
     return (
-        <Dialog open={openDialog} onOpenChange={setOpenDialog}>
+        <Dialog open={openDialog} onOpenChange={setOpenDialog} >
             <DialogTrigger asChild>
                 <Button variant="outline" onClick={()=> setOpenDialog(true)}>
                     Agregar nuevo Entrenador
@@ -26,7 +26,7 @@ export function ButtonAddTrainer() {
                 </Button>
             </DialogTrigger>
             <DialogContent>
-            <DialogTitle>Agregar un Entrenador</DialogTitle> {/* Título accesible */}
+            <DialogTitle>Agregar un Entrenador</DialogTitle> 
                 <DialogHeader>
                     <DialogDescription>
                         <TrainerForm 

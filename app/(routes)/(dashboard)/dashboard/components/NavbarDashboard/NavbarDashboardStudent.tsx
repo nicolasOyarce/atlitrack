@@ -8,10 +8,10 @@ import { SidebarRoutesStudent } from "../SidebarRoutes/SidebarRoutesStudent"
 
 export const NavbarDashboardStudent = () => {
     return (
-        <nav className="flex items-center justify-between w-full h-20 px-2 border-b gap-x-4 md:px-6 bg-background">
+        <nav className="flex items-center justify-between w-full h-20 px-2 border-b gap-x-4 md:px-6 bg-background bg-gray-950">
             <div className="block xl:hidden">
                 <Sheet>
-                    <SheetTrigger className="flex items-center">
+                    <SheetTrigger className="flex items-center text-white ">
                         <Menu />
                     </SheetTrigger>
                     <SheetContent side="left">
@@ -20,7 +20,6 @@ export const NavbarDashboardStudent = () => {
                 </Sheet>
             </div>
             <div className="flex items-center justify-end w-full gap-x-2">
-                {/*<UserButton />*/}
             </div>
         </nav>
     )

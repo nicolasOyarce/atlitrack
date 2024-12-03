@@ -11,7 +11,7 @@ export function SidebarItem(props: SidebarItemProps) {
     const activePath = pathname === href;
 
     return (
-        <Link href={href} className={cn("flex gap-x-2 mt-2 text-slate-700 text-sm items-center hover:bg-slate-200 p-2 rounded-lg cursor-pointer", activePath && "bg-slate-200/20")}>
+        <Link href={href} className={cn("flex gap-x-2 mt-2 text-slate-300 text-sm items-center hover:bg-slate-600 p-3 rounded-lg cursor-pointer", activePath && "bg-slate-500/20")}>
             <Icon className="w-5 h-5" strokeWidth={1} />
             {label}
         </Link>

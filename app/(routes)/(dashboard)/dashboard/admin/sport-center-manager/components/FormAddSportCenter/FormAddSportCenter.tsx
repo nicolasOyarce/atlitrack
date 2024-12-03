@@ -287,7 +287,7 @@ export function SportCenterForm({ editingId, setEditingId, setOpenDialog }: { ed
           />
         </div>
         <div className="space-x-4">
-          <Button type="submit" className="w-full lg:w-auto">
+          <Button type="submit" className="w-full lg:w-auto bg-green-500">
             {editingId ? "Actualizar Centro" : "Crear Centro"}
           </Button>
         </div>

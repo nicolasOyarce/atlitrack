@@ -1,5 +1,4 @@
 import { Calendar, ChartLine, HousePlus, Dumbbell, NotebookPen, UserPen, Settings,FileClock, BicepsFlexed} from "lucide-react";
-import { exit } from "process";
 
 export const dataAdminSidebar = [
     {
